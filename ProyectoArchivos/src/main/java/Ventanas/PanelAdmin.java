@@ -167,6 +167,11 @@ public class PanelAdmin extends javax.swing.JFrame {
         });
 
         btEditar.setText("editar información");
+        btEditar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btEditarMouseClicked(evt);
+            }
+        });
 
         btBackup.setText("hacer backup");
         btBackup.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -407,6 +412,10 @@ public class PanelAdmin extends javax.swing.JFrame {
             }
         
     }//GEN-LAST:event_btBuscarMouseClicked
+
+    private void btEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btEditarMouseClicked
+        new EditarUsuarioA().setVisible(true);
+    }//GEN-LAST:event_btEditarMouseClicked
 public static void BuscaDatos(String Busqueda)
 {
     String [] BuscarCampos = Busqueda.split("\\|");

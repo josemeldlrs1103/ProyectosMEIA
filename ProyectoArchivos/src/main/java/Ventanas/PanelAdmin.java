@@ -5,12 +5,18 @@
  */
 package Ventanas;
 import Clases.Backup;
+import static Clases.DatosUsuario.DatosBuscadosList;
 import static Clases.DatosUsuario.DatosList;
 import java.awt.Image;
+import java.io.BufferedReader;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -88,6 +94,8 @@ public class PanelAdmin extends javax.swing.JFrame {
         btBuscar = new javax.swing.JButton();
         btEditar = new javax.swing.JButton();
         btBackup = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -167,6 +175,10 @@ public class PanelAdmin extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Lista Materiales");
+
+        jButton2.setText("Hacer Donación");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -197,11 +209,11 @@ public class PanelAdmin extends javax.swing.JFrame {
                         .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btBackup, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+                                    .addComponent(btBackup, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+                                    .addComponent(btEditar, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+                                    .addComponent(btBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -227,6 +239,12 @@ public class PanelAdmin extends javax.swing.JFrame {
                                     .addComponent(tfNombre)
                                     .addComponent(jScrollPane1))))))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(63, 63, 63)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -288,7 +306,11 @@ public class PanelAdmin extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btBackup))
                     .addComponent(jScrollPane1))
-                .addGap(122, 122, 122))
+                .addGap(40, 40, 40)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26))
         );
 
         pack();
@@ -326,10 +348,70 @@ public class PanelAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btBackupMouseClicked
 
     private void btBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btBuscarMouseClicked
-        String Busqueda = JOptionPane.showInputDialog(null, "Ingrese alguno de los datos del usuario que busca");
+        boolean UsuarioEncontrado = false;
+        int linea1numero = 1, linea2numero = 1;
+        String linealeida1 = "", linealeida2 ="";
+        String Busqueda = JOptionPane.showInputDialog(null, "Ingrese el usuario que busca");
+        try { //Se busca al usuario ingresado en el archivo de texto
+                FileReader Bitacoratxt = new FileReader("C:/MEIA/bitacora.txt");
+                BufferedReader UsuarioBitacora = new BufferedReader(Bitacoratxt);
+                while (((linealeida1 = UsuarioBitacora.readLine()) != null)) {                    
+                    if (linealeida1.contains(Busqueda)) 
+                    { 
+                        UsuarioEncontrado = true;
+                        break;
+                    }
+                    else
+                    {
+                        linea1numero++;
+                    }
+                }
+                UsuarioBitacora.close();
+                Bitacoratxt.close();
+                if (UsuarioEncontrado) 
+                {
+                    BuscaDatos(linealeida1);
+                    new BuscarUsuario().setVisible(true);
+                }
+                else
+                {
+                    FileReader Usuariotxt = new FileReader("C:/MEIA/usuario.txt");
+                BufferedReader UsuarioArchivo = new BufferedReader(Usuariotxt);
+                while (((linealeida2 = UsuarioArchivo.readLine()) != null)) 
+                {                    
+                    if (linealeida2.contains(Busqueda)) 
+                    { 
+                        UsuarioEncontrado = true;
+                        break;
+                    }
+                    else
+                    {
+                        linea2numero++;
+                    }
+                }
+                UsuarioArchivo.close();
+                Usuariotxt.close();
+                if(UsuarioEncontrado)
+                {
+                    BuscaDatos(linealeida2);
+                    new BuscarUsuario().setVisible(true);
+                }
+                else 
+                {
+                   JOptionPane.showMessageDialog(null, "No se encontró al usuario, contacte al administrador para registrarse");
+                }
+                }
+                
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null,e.getMessage());
+            }
         
     }//GEN-LAST:event_btBuscarMouseClicked
-
+public static void BuscaDatos(String Busqueda)
+{
+    String [] BuscarCampos = Busqueda.split("\\|");
+    DatosBuscadosList = BuscarCampos;
+}
     /**
      * @param args the command line arguments
      */
@@ -370,6 +452,8 @@ public class PanelAdmin extends javax.swing.JFrame {
     private javax.swing.JButton btBuscar;
     private javax.swing.JButton btEditar;
     private javax.swing.JButton btRegistrar;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

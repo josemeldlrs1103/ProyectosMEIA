@@ -12,4 +12,5 @@ import java.util.List;
  */
 public class DatosUsuario {
     public static String[] DatosList;
+    public static String[] DatosBuscadosList;
 }

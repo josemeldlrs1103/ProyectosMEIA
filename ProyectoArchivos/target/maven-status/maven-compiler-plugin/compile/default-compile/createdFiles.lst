@@ -2,6 +2,7 @@ Clases\ArchivosIniciales.class
 Ventanas\PanelAdmin.class
 Ventanas\PanelAdmin$2.class
 Ventanas\Login$2.class
+Ventanas\BuscarUsuario.class
 Ventanas\CrearUsuario$3.class
 Ventanas\Login$3.class
 Ventanas\PanelAdmin$1.class
@@ -9,6 +10,7 @@ Clases\VerificadorPassword.class
 Ventanas\Login.class
 Ventanas\PanelUsuario.class
 Clases\DatosUsuario.class
+Ventanas\BuscarUsuario$1.class
 Ventanas\CrearUsuario$1.class
 Clases\Backup.class
 Ventanas\Login$1.class

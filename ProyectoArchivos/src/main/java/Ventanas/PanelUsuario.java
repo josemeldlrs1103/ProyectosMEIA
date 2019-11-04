@@ -7,6 +7,7 @@ package Ventanas;
 import static Clases.DatosUsuario.DatosList;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -82,6 +83,11 @@ public class PanelUsuario extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         taDescripción.setEditable(false);
         taDescripción.setColumns(20);
@@ -261,6 +267,13 @@ public class PanelUsuario extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         new EditarUsuarioC().setVisible(true);
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        if (DatosList[10].equals("0"))
+        {
+            JOptionPane.showMessageDialog(null, "El usuario fue dado de baja por lo que pronto perderá el acceso al sistema.");
+        }  
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments

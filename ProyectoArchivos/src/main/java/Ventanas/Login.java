@@ -18,6 +18,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import javax.swing.JOptionPane;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,6 +41,8 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        Reorganizar();
+        ActualizarDescriptores();
     }
 
     /**
@@ -314,7 +323,195 @@ public static String Contrasena = "";
             }
         });
     }
-
+public void Reorganizar ()
+{
+    File BitacoraA = new File ("C:/MEIA/bitacora.txt");
+    File UsuariosA = new File ("C:/MEIA/usuario.txt");
+    ArrayList<String> lineasleidas = new ArrayList<String>();
+    String linealeida1 = "", linealeida2 ="";
+    try { //Se busca al usuario ingresado en el archivo de texto
+                FileReader Bitacoratxt = new FileReader("C:/MEIA/bitacora.txt");
+                BufferedReader UsuarioBitacora = new BufferedReader(Bitacoratxt);
+                while (((linealeida1 = UsuarioBitacora.readLine()) != null)) 
+                {   
+                    lineasleidas.add(linealeida1);
+                }
+                UsuarioBitacora.close();
+                Bitacoratxt.close();
+                if ((lineasleidas.size()) > 6)
+                {
+                    BitacoraA.delete();
+                    BitacoraA.createNewFile();
+                    FileReader Usuariotxt = new FileReader("C:/MEIA/usuario.txt");
+                    BufferedReader UsuarioFile = new BufferedReader(Usuariotxt);
+                    if ((linealeida2 = UsuarioFile.readLine())!= null)
+                    {
+                        lineasleidas.add(linealeida2);
+                        while((linealeida2 = UsuarioFile.readLine())!= null)
+                        {
+                            lineasleidas.add(linealeida2);
+                        }
+                        UsuarioFile.close();
+                        Usuariotxt.close();
+                        Collections.sort(lineasleidas,String.CASE_INSENSITIVE_ORDER);
+                        UsuariosA.delete();
+                        UsuariosA.createNewFile();
+                        FileWriter GuardarCambio = new FileWriter (UsuariosA, true);
+                        for(var linea : lineasleidas)
+                        {
+                           String [] VerificarEstado = linea.split("\\|");
+                           if (VerificarEstado[10].equals("1"))
+                           {
+                               GuardarCambio.write(linea +"\n");
+                           }
+                        }
+                        GuardarCambio.close();
+                    }
+                    else
+                    {
+                        Collections.sort(lineasleidas,String.CASE_INSENSITIVE_ORDER);
+                        UsuariosA.delete();
+                        FileWriter GuardarCambio = new FileWriter (UsuariosA, true);
+                        UsuariosA.createNewFile();
+                        for(var linea : lineasleidas)
+                        {
+                           String [] VerificarEstado = linea.split("\\|");
+                           if (VerificarEstado[10].equals("1"))
+                           {
+                               GuardarCambio.write(linea +"\n");
+                           }
+                        }
+                        GuardarCambio.close();
+                    }
+                    UsuarioFile.close();
+                    Usuariotxt.close();
+                } 
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null,e.getMessage());
+            }
+    
+}
+public void ActualizarDescriptores()
+{
+    //Variables que se usan para la actualización de desc_bitacora
+    int TotalR=0, TotalA = 0, TotalI=0;
+    ArrayList<String> CantidadUsuariosBitacora = new ArrayList<String>();
+    File DescB = new File("C:/MEIA/desc_bitacora.txt");
+    String linealeida ="";
+    try 
+    { //Se busca al usuario ingresado en el archivo de texto
+        FileReader Bitacora = new FileReader("C:/MEIA/bitacora.txt");
+        BufferedReader CantBit = new BufferedReader(Bitacora);
+        while ((linealeida = CantBit.readLine())!= null)
+        {
+            String[] VerificarEstado = linealeida.split("\\|");
+            if (VerificarEstado[10].equals("1"))
+            {
+                TotalA ++;
+            }
+            else
+            {
+                TotalI ++;
+            }
+        }
+        CantBit.close();
+        Bitacora.close();
+        TotalR = TotalA + TotalI;
+        FileReader DescBitacora = new FileReader("C:/MEIA/desc_bitacora.txt");
+        BufferedReader DescBit = new BufferedReader(DescBitacora);
+        while ((linealeida = DescBit.readLine())!= null)
+        {
+            CantidadUsuariosBitacora.add(linealeida);      
+        }
+        Calendar FechaTransaccion = Calendar.getInstance();
+        int Anio = FechaTransaccion.get(Calendar.YEAR);
+        int Mes = FechaTransaccion.get(Calendar.MONTH);
+        int Dia = FechaTransaccion.get(Calendar.DAY_OF_MONTH);
+        int Hora = FechaTransaccion.get(Calendar.HOUR_OF_DAY);
+        int Minuto = FechaTransaccion.get(Calendar.MINUTE);
+        int Segundo = FechaTransaccion.get(Calendar.SECOND);
+        String Modificar = String.valueOf(Dia +"/"+Mes+"/"+ Anio+" "+Hora+":"+Minuto+":"+Segundo);
+        CantidadUsuariosBitacora.set(2, ("F_modificación: " + Modificar));
+        CantidadUsuariosBitacora.set(4, ("cantidad_total " + TotalR));
+        CantidadUsuariosBitacora.set(5, ("cantidad_activos: " + TotalA));
+        CantidadUsuariosBitacora.set(6, ("cantidad_inactivos: " + TotalI));
+        DescBit.close();
+        DescBitacora.close();
+        DescB.delete();
+        DescB.createNewFile();
+        FileWriter ModificarDescB = new FileWriter(DescB, true);
+        for(String lineadesc : CantidadUsuariosBitacora)
+        {
+            ModificarDescB.write(lineadesc + "\n");
+        }
+        
+        ModificarDescB.close();
+           
+    } catch (Exception e) 
+    {
+        JOptionPane.showMessageDialog(null,e.getMessage());
+    }
+    //Variables que se usan para la actualización de desc_usuario
+    int TotalRU=0, TotalAU = 0, TotalIU=0;
+    ArrayList<String> CantidadUsuariostxt = new ArrayList<String>();
+    File DescU = new File("C:/MEIA/desc_usuario.txt");
+    String linealeida2 ="";
+    try 
+    { //Se busca al usuario ingresado en el archivo de texto
+        FileReader Usuario = new FileReader("C:/MEIA/usuario.txt");
+        BufferedReader CantUsuario = new BufferedReader(Usuario);
+        while ((linealeida2 = CantUsuario.readLine())!= null)
+        {
+            String[] VerificarEstado = linealeida2.split("\\|");
+            if (VerificarEstado[10].equals("1"))
+            {
+                TotalAU ++;
+            }
+            else
+            {
+                TotalIU ++;
+            }
+        }
+        CantUsuario.close();
+        Usuario.close();
+        TotalRU = TotalAU + TotalIU;
+        FileReader DescUsuario = new FileReader("C:/MEIA/desc_bitacora.txt");
+        BufferedReader DescUsua = new BufferedReader(DescUsuario);
+        while ((linealeida2 = DescUsua.readLine())!= null)
+        {
+            CantidadUsuariostxt.add(linealeida2);      
+        }
+        Calendar FechaTransaccion = Calendar.getInstance();
+        int Anio = FechaTransaccion.get(Calendar.YEAR);
+        int Mes = FechaTransaccion.get(Calendar.MONTH);
+        int Dia = FechaTransaccion.get(Calendar.DAY_OF_MONTH);
+        int Hora = FechaTransaccion.get(Calendar.HOUR_OF_DAY);
+        int Minuto = FechaTransaccion.get(Calendar.MINUTE);
+        int Segundo = FechaTransaccion.get(Calendar.SECOND);
+        String Modificar = String.valueOf(Dia +"/"+Mes+"/"+ Anio+" "+Hora+":"+Minuto+":"+Segundo);
+        CantidadUsuariosBitacora.set(2, ("F_modificación: " + Modificar));
+        CantidadUsuariosBitacora.set(3, ("F_modificación: " + TotalRU));
+        CantidadUsuariosBitacora.set(4, ("F_modificación: " + TotalAU));
+        CantidadUsuariosBitacora.set(5, ("F_modificación: " + TotalIU));
+        DescUsua.close();
+        DescUsuario.close();
+        DescB.delete();
+        DescB.createNewFile();
+        FileWriter ModificarDescB = new FileWriter(DescB, true);
+        for(String lineadesc : CantidadUsuariosBitacora)
+        {
+            ModificarDescB.write(lineadesc + "\n");
+        }
+        
+        ModificarDescB.close();
+           
+    } catch (Exception e) 
+    {
+        JOptionPane.showMessageDialog(null,e.getMessage());
+    }
+       
+    
+}
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btIniciar;
     private javax.swing.JLabel jLabel1;

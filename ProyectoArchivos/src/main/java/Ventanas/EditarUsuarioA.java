@@ -5,6 +5,17 @@
  */
 package Ventanas;
 import static Clases.DatosUsuario.DatosList;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -26,7 +37,6 @@ public class EditarUsuarioA extends javax.swing.JFrame {
         jcDia.setSelectedItem(FechaNac[0]);
         jcMes.setSelectedItem(FechaNac[1]);
         jcAnio.setSelectedItem(FechaNac[2]);
-        
     }
 
     /**
@@ -53,7 +63,7 @@ public class EditarUsuarioA extends javax.swing.JFrame {
         btCambiarFoto = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         taDescripcion = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
+        btActualizar = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -95,12 +105,22 @@ public class EditarUsuarioA extends javax.swing.JFrame {
         jLabel4.setText("Nacimiento:");
 
         btCambiarFoto.setText("Cambiar Foto");
+        btCambiarFoto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btCambiarFotoMouseClicked(evt);
+            }
+        });
 
         taDescripcion.setColumns(20);
         taDescripcion.setRows(5);
         jScrollPane1.setViewportView(taDescripcion);
 
-        jButton1.setText("Actualizar");
+        btActualizar.setText("Actualizar");
+        btActualizar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btActualizarMouseClicked(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("Dia");
@@ -129,7 +149,7 @@ public class EditarUsuarioA extends javax.swing.JFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel7)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -177,7 +197,7 @@ public class EditarUsuarioA extends javax.swing.JFrame {
                     .addContainerGap()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel1)
-                        .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addComponent(btActualizar, javax.swing.GroupLayout.Alignment.TRAILING))
                     .addGap(18, 18, 18)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
@@ -216,6 +236,107 @@ public class EditarUsuarioA extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btCambiarFotoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btCambiarFotoMouseClicked
+        JFileChooser dialogo = new JFileChooser();
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Foto de perfil", "jpg");
+        File ficheroImagen;
+        String rutaArchivo;
+        dialogo.setFileFilter(filtro);
+        int valor = dialogo.showOpenDialog(this);
+        if (valor == JFileChooser.APPROVE_OPTION) {
+            ficheroImagen = dialogo.getSelectedFile();
+            rutaArchivo = ficheroImagen.getPath();
+            CopiarImagenes(ficheroImagen);
+            tfImagen.setText(ImagenCopiada.getPath());
+        } 
+
+    }//GEN-LAST:event_btCambiarFotoMouseClicked
+
+    private void btActualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btActualizarMouseClicked
+        DatosList[3] = String.valueOf(tfContrasena.getText());
+        DatosList[5] = jcDia.getSelectedItem() + "/" + jcMes.getSelectedItem() + "/" + jcAnio.getSelectedItem();
+        DatosList[6] = tfCorreo.getText();
+        DatosList[7] = tfTelefono.getText();
+        DatosList[8] = tfImagen.getText();
+        DatosList[9] = taDescripcion.getText();
+        ArrayList<String> UsuariosRegistrados = new ArrayList<String>();
+        UsuariosRegistrados.clear();
+        boolean UsuarioEncontrado = false;
+        String linealeida1 = "", linealeida2 ="";
+        //Variables que se usan para reescribir los archivos con los cambios realizados
+        File Bitacora = new File ("C:/MEIA/bitacora.txt");
+        File BitacoraR = new File ("C:/MEIA/bitacora.txt");
+        File Usuarios = new File ("C:/MEIA/usuario.txt");
+        File UsuariosR = new File ("C:/MEIA/usuario.txt");
+        try { //Se busca al usuario ingresado en el archivo de texto
+                FileReader Bitacoratxt = new FileReader("C:/MEIA/bitacora.txt");
+                BufferedReader UsuarioBitacora = new BufferedReader(Bitacoratxt);
+                while (((linealeida1 = UsuarioBitacora.readLine()) != null)) {                    
+                    if (linealeida1.contains(DatosList[0])) 
+                    { 
+                        UsuarioEncontrado = true;
+                        String CambioInfo = DatosList[0] + "|" + DatosList[1] + "|" +DatosList[2] + "|" +DatosList[3] + "|" +DatosList[4] + "|" +DatosList[5] + "|" + DatosList[6] + "|" + DatosList[7] + "|" + DatosList[8] + "|" + DatosList[9] + "|" + DatosList[10];
+                        UsuariosRegistrados.add(CambioInfo);
+                        
+                    }
+                    else
+                    {
+                        UsuariosRegistrados.add(linealeida1);
+                    }
+                }
+                UsuarioBitacora.close();
+                Bitacoratxt.close();
+                if (UsuarioEncontrado) 
+                {
+                    Bitacora.delete();
+                    FileWriter GuardarCambio = new FileWriter (BitacoraR, true);
+                    BitacoraR.createNewFile();
+                    for (String Datos : UsuariosRegistrados)
+                    {
+                        GuardarCambio.write(Datos+"\n");
+                    }
+                    GuardarCambio.close();
+                }
+                else 
+                {
+                    UsuariosRegistrados.clear();
+                    FileReader Usuariotxt = new FileReader("C:/MEIA/usuario.txt");
+                    BufferedReader UsuarioArchivo = new BufferedReader(Usuariotxt);
+                while (((linealeida2 = UsuarioArchivo.readLine()) != null)) 
+                {                    
+                    if (linealeida2.contains(DatosList[0])) 
+                    { 
+                        UsuarioEncontrado = true; 
+                        String CambioInfo = DatosList[0] + "|" + DatosList[1] + "|" +DatosList[2] + "|" +DatosList[3] + "|" +DatosList[4] + "|" +DatosList[5] + "|" + DatosList[6] + "|" + DatosList[7] + "|" + DatosList[8] + "|" + DatosList[9] + "|" + DatosList[10];
+                        UsuariosRegistrados.add(CambioInfo);
+                    }
+                    else
+                    {
+                        UsuariosRegistrados.add(linealeida2);
+                    }
+                }
+                UsuarioArchivo.close();
+                Usuariotxt.close();
+                if(UsuarioEncontrado)
+                {
+                    Usuarios.delete();
+                    FileWriter GuardarCambio = new FileWriter (UsuariosR, true);
+                    UsuariosR.createNewFile();
+                    for (String Datos : UsuariosRegistrados)
+                    {
+                        GuardarCambio.write(Datos+"\n");
+                    }
+                    GuardarCambio.close();
+                }
+                }
+                
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null,e.getMessage());
+            }
+        JOptionPane.showMessageDialog(null, "La información ha sido actualizada inicie sesión de nuevo para visualizar los cambios");
+        this.setVisible(false);
+    }//GEN-LAST:event_btActualizarMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -250,10 +371,22 @@ public class EditarUsuarioA extends javax.swing.JFrame {
             }
         });
     }
+    File ImagenCopiada;
+    public void CopiarImagenes(File origen) {
+        //Copiar la imagen a la carpeta MEIA
+        String ruta_destino = "C:\\MEIA\\fotografia";
+        File ruta = new File(ruta_destino);       
+        File nuevo = new File(ruta_destino + "\\" + origen.getName());
+        try {
+            Files.copy(Paths.get(origen.getAbsolutePath()), Paths.get(nuevo.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
+            ImagenCopiada = new File(ruta_destino + "\\" + origen.getName());
+        } catch (Exception e) {
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btActualizar;
     private javax.swing.JButton btCambiarFoto;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Calendar;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -72,11 +73,27 @@ public class Backup {
         int Minuto = FechaTransaccion.get(Calendar.MINUTE);
         int Segundo = FechaTransaccion.get(Calendar.SECOND);
         String FechaBack = String.valueOf(Dia +"/"+Mes+"/"+ Anio+" "+Hora+":"+Minuto+":"+Segundo);
-        String Registro = RutaAbs + "|" + Usuario + "|" + FechaBack+"\n";
+        String Registro = RutaAbs + "|" + Usuario + "|" + FechaBack;
         File Fichero = new File ("C:/MEIA/bitacora_backup.txt");
         try {
+            String linealeida ="";
+            ArrayList<String> CopiasHechas = new ArrayList<String>();
+            FileReader Copias = new FileReader("C:/MEIA/bitacora_backup.txt");
+            BufferedReader FechaCopias = new BufferedReader(Copias);
+            while((linealeida = FechaCopias.readLine())!= null)
+            {
+                CopiasHechas.add(linealeida);
+            }
+            FechaCopias.close();
+            Copias.close();
+            Fichero.delete();
+            Fichero.createNewFile();
             FileWriter RBackUp = new FileWriter(Fichero, true);
-            RBackUp.write(Registro);
+            RBackUp.write(Registro+"\n");
+            for(String RCopia : CopiasHechas)
+            {
+                RBackUp.write(RCopia+"\n");
+            }
             RBackUp.close(); 
         } catch (IOException ex) {
             Logger.getLogger(Backup.class.getName()).log(Level.SEVERE, null, ex);

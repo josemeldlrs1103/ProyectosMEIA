@@ -1,8 +1,11 @@
 Ventanas\PanelUsuario$2.class
+Ventanas\PanelAdmin$6.class
+Ventanas\EditarUsuarioB$2.class
 Ventanas\EditarUsuarioC.class
 Ventanas\CrearUsuario$3.class
 Ventanas\Login$3.class
 Ventanas\PanelAdmin$1.class
+Ventanas\EditarUsuarioA$2.class
 Clases\VerificadorPassword.class
 Ventanas\EditarUsuarioB$1.class
 Ventanas\Login.class
@@ -14,10 +17,13 @@ Ventanas\PanelUsuario$1.class
 Ventanas\EditarUsuarioA$1.class
 Ventanas\PanelAdmin$3.class
 Ventanas\CrearUsuario$2.class
+Ventanas\EditarUsuarioC$2.class
 Clases\ArchivosIniciales.class
 Ventanas\PanelAdmin.class
 Ventanas\EditarUsuarioB.class
+Ventanas\PanelUsuario$3.class
 Ventanas\PanelAdmin$2.class
+Ventanas\EditarUsuarioA$3.class
 Ventanas\Login$2.class
 Ventanas\BuscarUsuario.class
 Ventanas\EditarUsuarioC$1.class
@@ -27,4 +33,6 @@ Ventanas\CrearUsuario$1.class
 Clases\Backup.class
 Ventanas\CrearUsuario.class
 Ventanas\PanelAdmin$4.class
+Ventanas\EditarUsuarioB$3.class
 Ventanas\EditarUsuarioA.class
+Ventanas\EditarUsuarioC$3.class

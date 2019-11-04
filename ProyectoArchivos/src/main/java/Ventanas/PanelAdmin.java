@@ -98,6 +98,11 @@ public class PanelAdmin extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("BIENVENIDO");
@@ -416,6 +421,13 @@ public class PanelAdmin extends javax.swing.JFrame {
     private void btEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btEditarMouseClicked
         new EditarUsuarioA().setVisible(true);
     }//GEN-LAST:event_btEditarMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        if (DatosList[10].equals("0"))
+        {
+            JOptionPane.showMessageDialog(null, "El usuario fue dado de baja por lo que pronto perderá el acceso al sistema.");
+        }  
+    }//GEN-LAST:event_formWindowOpened
 public static void BuscaDatos(String Busqueda)
 {
     String [] BuscarCampos = Busqueda.split("\\|");

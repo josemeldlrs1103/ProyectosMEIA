@@ -100,7 +100,6 @@ public class ArchivosIniciales {
             writertMateriales.write("Nombre:Bitacora Materiales\n");
             writertMateriales.write("F_creacion:"+fecha.toString()+"\n");
             writertMateriales.write("F_modificacion:"+fecha.toString()+"\n");
-            writertMateriales.write("Max_organizacion:5\n");
             writertMateriales.write("cantidad_total:0\n");
             writertMateriales.write("cantidad_activos:0\n");
             writertMateriales.write("cantidad_inactivos:0\n");

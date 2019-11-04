@@ -325,6 +325,7 @@ public static String Contrasena = "";
     }
 public void Reorganizar ()
 {
+    //Reorganización bitacora_usarios usuarios
     File BitacoraA = new File ("C:/MEIA/bitacora.txt");
     File UsuariosA = new File ("C:/MEIA/usuario.txt");
     ArrayList<String> lineasleidas = new ArrayList<String>();
@@ -377,6 +378,70 @@ public void Reorganizar ()
                         {
                            String [] VerificarEstado = linea.split("\\|");
                            if (VerificarEstado[10].equals("1"))
+                           {
+                               GuardarCambio.write(linea +"\n");
+                           }
+                        }
+                        GuardarCambio.close();
+                    }
+                    UsuarioFile.close();
+                    Usuariotxt.close();
+                } 
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null,e.getMessage());
+            }
+    //Reorganización materiales-matarialesbitacora
+    File BitacoraM = new File ("C:/MEIA/materiales_bitacora.txt");
+    File MaterialesA = new File ("C:/MEIA/materiales.txt");
+    ArrayList<String> lineasleidas2 = new ArrayList<String>();
+    try { //Se busca al usuario ingresado en el archivo de texto
+                FileReader Bitacoratxt = new FileReader("C:/MEIA/materiales_bitacora.txt");
+                BufferedReader UsuarioBitacora = new BufferedReader(Bitacoratxt);
+                while (((linealeida1 = UsuarioBitacora.readLine()) != null)) 
+                {   
+                    lineasleidas2.add(linealeida1);
+                }
+                UsuarioBitacora.close();
+                Bitacoratxt.close();
+                if ((lineasleidas2.size()) > 4)
+                {
+                    BitacoraM.delete();
+                    BitacoraM.createNewFile();
+                    FileReader Usuariotxt = new FileReader("C:/MEIA/materiales.txt");
+                    BufferedReader UsuarioFile = new BufferedReader(Usuariotxt);
+                    if ((linealeida2 = UsuarioFile.readLine())!= null)
+                    {
+                        lineasleidas2.add(linealeida2);
+                        while((linealeida2 = UsuarioFile.readLine())!= null)
+                        {
+                            lineasleidas2.add(linealeida2);
+                        }
+                        UsuarioFile.close();
+                        Usuariotxt.close();
+                        Collections.sort(lineasleidas2,String.CASE_INSENSITIVE_ORDER);
+                        MaterialesA.delete();
+                        MaterialesA.createNewFile();
+                        FileWriter GuardarCambio = new FileWriter (MaterialesA, true);
+                        for(var linea : lineasleidas2)
+                        {
+                           String [] VerificarEstado = linea.split("\\|");
+                           if (VerificarEstado[6].equals("1"))
+                           {
+                               GuardarCambio.write(linea +"\n");
+                           }
+                        }
+                        GuardarCambio.close();
+                    }
+                    else
+                    {
+                        Collections.sort(lineasleidas2,String.CASE_INSENSITIVE_ORDER);
+                        MaterialesA.delete();
+                        FileWriter GuardarCambio = new FileWriter (MaterialesA, true);
+                        MaterialesA.createNewFile();
+                        for(var linea : lineasleidas2)
+                        {
+                           String [] VerificarEstado = linea.split("\\|");
+                           if (VerificarEstado[6].equals("1"))
                            {
                                GuardarCambio.write(linea +"\n");
                            }
@@ -489,27 +554,139 @@ public void ActualizarDescriptores()
         int Minuto = FechaTransaccion.get(Calendar.MINUTE);
         int Segundo = FechaTransaccion.get(Calendar.SECOND);
         String Modificar = String.valueOf(Dia +"/"+Mes+"/"+ Anio+" "+Hora+":"+Minuto+":"+Segundo);
-        CantidadUsuariosBitacora.set(2, ("F_modificación: " + Modificar));
-        CantidadUsuariosBitacora.set(3, ("F_modificación: " + TotalRU));
-        CantidadUsuariosBitacora.set(4, ("F_modificación: " + TotalAU));
-        CantidadUsuariosBitacora.set(5, ("F_modificación: " + TotalIU));
+        CantidadUsuariostxt.set(2, ("F_modificación: " + Modificar));
+        CantidadUsuariostxt.set(3, ("cantidad_total: " + TotalRU));
+        CantidadUsuariostxt.set(4, ("cantidad_activos: " + TotalAU));
+        CantidadUsuariostxt.set(5, ("cantidad_inactivos: " + TotalIU));
         DescUsua.close();
         DescUsuario.close();
         DescB.delete();
         DescB.createNewFile();
         FileWriter ModificarDescB = new FileWriter(DescB, true);
-        for(String lineadesc : CantidadUsuariosBitacora)
+        for(String lineadesc : CantidadUsuariostxt)
         {
             ModificarDescB.write(lineadesc + "\n");
         }
         
-        ModificarDescB.close();
+        ModificarDescB.close();           
+    } catch (Exception e) 
+    {
+        JOptionPane.showMessageDialog(null,e.getMessage());
+    }
+    //Variables que se usan para la actualización de desc_materialesbitacora
+    int TotalRMB=0, TotalAMB = 0, TotalIMB=0;
+    ArrayList<String> CantidadMaterialesBitacora = new ArrayList<String>();
+    File DescMB = new File("C:/MEIA/desc_materialesbitacora.txt");
+    String linealeida3 ="";
+    try 
+    { //Se busca al usuario ingresado en el archivo de texto
+        FileReader Materiales = new FileReader("C:/MEIA/materiales_bitacora.txt");
+        BufferedReader CantMateriales = new BufferedReader(Materiales);
+        while ((linealeida3 = CantMateriales.readLine())!= null)
+        {
+            String[] VerificarEstado = linealeida3.split("\\|");
+            if (VerificarEstado[6].equals("1"))
+            {
+                TotalAMB ++;
+            }
+            else
+            {
+                TotalIMB ++;
+            }
+        }
+        CantMateriales.close();
+        Materiales.close();
+        TotalRMB = TotalAMB + TotalIMB;
+        FileReader DescMateriales = new FileReader("C:/MEIA/desc_materialesbitacora.txt");
+        BufferedReader DescMat = new BufferedReader(DescMateriales);
+        while ((linealeida3 = DescMat.readLine())!= null)
+        {
+            CantidadMaterialesBitacora.add(linealeida3);      
+        }
+        Calendar FechaTransaccion = Calendar.getInstance();
+        int Anio = FechaTransaccion.get(Calendar.YEAR);
+        int Mes = FechaTransaccion.get(Calendar.MONTH);
+        int Dia = FechaTransaccion.get(Calendar.DAY_OF_MONTH);
+        int Hora = FechaTransaccion.get(Calendar.HOUR_OF_DAY);
+        int Minuto = FechaTransaccion.get(Calendar.MINUTE);
+        int Segundo = FechaTransaccion.get(Calendar.SECOND);
+        String Modificar = String.valueOf(Dia +"/"+Mes+"/"+ Anio+" "+Hora+":"+Minuto+":"+Segundo);
+        CantidadMaterialesBitacora.set(2, ("F_modificación: " + Modificar));
+        CantidadMaterialesBitacora.set(4, ("cantidad_total " + TotalRMB));
+        CantidadMaterialesBitacora.set(5, ("cantidad_activos: " + TotalAMB));
+        CantidadMaterialesBitacora.set(6, ("cantidad_inactivos: " + TotalIMB));
+        DescMat.close();
+        DescMateriales.close();
+        DescMB.delete();
+        DescMB.createNewFile();
+        FileWriter ModificarDescMB = new FileWriter(DescMB, true);
+        for(String lineadesc : CantidadMaterialesBitacora)
+        {
+            ModificarDescMB.write(lineadesc + "\n");
+        }
+        ModificarDescMB.close();
            
     } catch (Exception e) 
     {
         JOptionPane.showMessageDialog(null,e.getMessage());
     }
-       
+    //Variables que se usan para la actualización de desc_usuario
+    int TotalRM=0, TotalAM = 0, TotalIM=0;
+    ArrayList<String> CantidadMaterialestxt = new ArrayList<String>();
+    File DescM = new File("C:/MEIA/desc_materiales.txt");
+    String linealeida4 ="";
+    try 
+    { //Se busca al usuario ingresado en el archivo de texto
+        FileReader Materiales = new FileReader("C:/MEIA/materiales.txt");
+        BufferedReader CantMateriales = new BufferedReader(Materiales);
+        while ((linealeida4 = CantMateriales.readLine())!= null)
+        {
+            String[] VerificarEstado = linealeida4.split("\\|");
+            if (VerificarEstado[6].equals("1"))
+            {
+                TotalAM ++;
+            }
+            else
+            {
+                TotalIM ++;
+            }
+        }
+        CantMateriales.close();
+        Materiales.close();
+        TotalRM = TotalAM + TotalIM;
+        FileReader DescMateriales = new FileReader("C:/MEIA/desc_materiales.txt");
+        BufferedReader DescMateria = new BufferedReader(DescMateriales);
+        while ((linealeida4 = DescMateria.readLine())!= null)
+        {
+            CantidadMaterialestxt.add(linealeida4);      
+        }
+        Calendar FechaTransaccion = Calendar.getInstance();
+        int Anio = FechaTransaccion.get(Calendar.YEAR);
+        int Mes = FechaTransaccion.get(Calendar.MONTH);
+        int Dia = FechaTransaccion.get(Calendar.DAY_OF_MONTH);
+        int Hora = FechaTransaccion.get(Calendar.HOUR_OF_DAY);
+        int Minuto = FechaTransaccion.get(Calendar.MINUTE);
+        int Segundo = FechaTransaccion.get(Calendar.SECOND);
+        String Modificar = String.valueOf(Dia +"/"+Mes+"/"+ Anio+" "+Hora+":"+Minuto+":"+Segundo);
+        CantidadMaterialestxt.set(2, ("F_modificación: " + Modificar));
+        CantidadMaterialestxt.set(3, ("cantiad_total: " + TotalRM));
+        CantidadMaterialestxt.set(4, ("Cantidad_activos: " + TotalAM));
+        CantidadMaterialestxt.set(5, ("Cantidad_inactivos: " + TotalIM));
+        DescMateria.close();
+        DescMateriales.close();
+        DescM.delete();
+        DescM.createNewFile();
+        FileWriter ModificarDescM = new FileWriter(DescM, true);
+        for(String lineadesc : CantidadMaterialestxt)
+        {
+            ModificarDescM.write(lineadesc + "\n");
+        }
+        
+        ModificarDescM.close();           
+    } catch (Exception e) 
+    {
+        JOptionPane.showMessageDialog(null,e.getMessage());
+    }
     
 }
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -186,8 +186,18 @@ public class PanelAdmin extends javax.swing.JFrame {
         });
 
         jButton1.setText("Lista Materiales");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         jButton2.setText("Hacer Donación");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -428,6 +438,14 @@ public class PanelAdmin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "El usuario fue dado de baja por lo que pronto perderá el acceso al sistema.");
         }  
     }//GEN-LAST:event_formWindowOpened
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        new ListaMateriales().setVisible(true);
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        new HacerDonación().setVisible(true);
+    }//GEN-LAST:event_jButton2MouseClicked
 public static void BuscaDatos(String Busqueda)
 {
     String [] BuscarCampos = Busqueda.split("\\|");

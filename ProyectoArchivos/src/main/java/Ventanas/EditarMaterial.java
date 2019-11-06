@@ -6,6 +6,7 @@
 package Ventanas;
 
 import static Clases.DatosMateriales.DatosMaterialesList;
+import static Clases.DatosUsuario.DatosList;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -221,37 +222,39 @@ public class EditarMaterial extends javax.swing.JFrame {
         {
             DatosMaterialesList[6] = "0";
         }
-        ArrayList<String> MaterialesRegistrados = new ArrayList<String>();
-        MaterialesRegistrados.clear();
+        ArrayList<String> UsuariosRegistrados = new ArrayList<String>();
+        UsuariosRegistrados.clear();
         boolean UsuarioEncontrado = false;
         String linealeida1 = "", linealeida2 ="";
         //Variables que se usan para reescribir los archivos con los cambios realizados
-        File MaterialesBit = new File ("C:/MEIA/materiales_bitacora.txt");
-        File Materiales = new File ("C:/MEIA/materiales.txt");
+        File Bitacora = new File ("C:/MEIA/materiales_bitacora.txt");
+        File BitacoraR = new File ("C:/MEIA/materiales_bitacora.txt");
+        File Usuarios = new File ("C:/MEIA/materiales.txt");
+        File UsuariosR = new File ("C:/MEIA/materiales.txt");
         try { //Se busca al usuario ingresado en el archivo de texto
-                FileReader BitacoraMateriales = new FileReader("C:/MEIA/materiales_bitacora.txt");
-                BufferedReader MaterialesBita = new BufferedReader(BitacoraMateriales);
-                while (((linealeida1 = MaterialesBita.readLine()) != null)) {                    
+                FileReader Bitacoratxt = new FileReader("C:/MEIA/materiales_bitacora.txt");
+                BufferedReader UsuarioBitacora = new BufferedReader(Bitacoratxt);
+                while (((linealeida1 = UsuarioBitacora.readLine()) != null)) {                    
                     if (linealeida1.contains(DatosMaterialesList[0])) 
                     { 
                         UsuarioEncontrado = true;
-                        String CambioInfo = DatosMaterialesList[0] + "|" + DatosMaterialesList[1] + "|" +DatosMaterialesList[2] + "|" +DatosMaterialesList[3] + "|" +DatosMaterialesList[4] + "|" +DatosMaterialesList[5] + "|" + DatosMaterialesList[6];
-                        MaterialesRegistrados.add(CambioInfo);
+                        String CambioInfo = DatosMaterialesList[0] + "|" + DatosMaterialesList[1] + "|" +DatosMaterialesList[2] + "|" +DatosMaterialesList[3] + "|" +DatosMaterialesList[4] + "|" +DatosMaterialesList[5];
+                        UsuariosRegistrados.add(CambioInfo);
                         
                     }
                     else
                     {
-                        MaterialesRegistrados.add(linealeida1);
+                        UsuariosRegistrados.add(linealeida1);
                     }
                 }
-                MaterialesBita.close();
-                BitacoraMateriales.close();
+                UsuarioBitacora.close();
+                Bitacoratxt.close();
                 if (UsuarioEncontrado) 
                 {
-                    MaterialesBit.delete();
-                    FileWriter GuardarCambio = new FileWriter (MaterialesBit, true);
-                    MaterialesBit.createNewFile();
-                    for (String Datos : MaterialesRegistrados)
+                    Bitacora.delete();
+                    FileWriter GuardarCambio = new FileWriter (BitacoraR, true);
+                    BitacoraR.createNewFile();
+                    for (String Datos : UsuariosRegistrados)
                     {
                         GuardarCambio.write(Datos+"\n");
                     }
@@ -259,30 +262,30 @@ public class EditarMaterial extends javax.swing.JFrame {
                 }
                 else 
                 {
-                    MaterialesRegistrados.clear();
-                    FileReader Materialestxt = new FileReader("C:/MEIA/materiales.txt");
-                    BufferedReader MaterialesArchivo = new BufferedReader(Materialestxt);
-                while (((linealeida2 = MaterialesArchivo.readLine()) != null)) 
+                    UsuariosRegistrados.clear();
+                    FileReader Usuariotxt = new FileReader("C:/MEIA/materiales.txt");
+                    BufferedReader UsuarioArchivo = new BufferedReader(Usuariotxt);
+                while (((linealeida2 = UsuarioArchivo.readLine()) != null)) 
                 {                    
                     if (linealeida2.contains(DatosMaterialesList[0])) 
                     { 
                         UsuarioEncontrado = true; 
                         String CambioInfo = DatosMaterialesList[0] + "|" + DatosMaterialesList[1] + "|" +DatosMaterialesList[2] + "|" +DatosMaterialesList[3] + "|" +DatosMaterialesList[4] + "|" +DatosMaterialesList[5] + "|" + DatosMaterialesList[6];
-                        MaterialesRegistrados.add(CambioInfo);
+                        UsuariosRegistrados.add(CambioInfo);
                     }
                     else
                     {
-                        MaterialesRegistrados.add(linealeida2);
+                        UsuariosRegistrados.add(linealeida2);
                     }
                 }
-                MaterialesArchivo.close();
-                Materialestxt.close();
+                UsuarioArchivo.close();
+                Usuariotxt.close();
                 if(UsuarioEncontrado)
                 {
-                    Materiales.delete();
-                    FileWriter GuardarCambio = new FileWriter (Materiales, true);
-                    Materiales.createNewFile();
-                    for (String Datos : MaterialesRegistrados)
+                    Usuarios.delete();
+                    FileWriter GuardarCambio = new FileWriter (UsuariosR, true);
+                    UsuariosR.createNewFile();
+                    for (String Datos : UsuariosRegistrados)
                     {
                         GuardarCambio.write(Datos+"\n");
                     }

@@ -189,23 +189,21 @@ public class HacerDonación extends javax.swing.JFrame {
         String Peso = tfPeso.getText();
         String Evento = taEvento.getText();
         Calendar FechaTransaccion = Calendar.getInstance();
-        int Anio = FechaTransaccion.get(Calendar.YEAR);
-        int Mes = FechaTransaccion.get(Calendar.MONTH);
-        int Dia = FechaTransaccion.get(Calendar.DAY_OF_MONTH);
-        int Hora = FechaTransaccion.get(Calendar.HOUR_OF_DAY);
-        int Minuto = FechaTransaccion.get(Calendar.MINUTE);
-        int Segundo = FechaTransaccion.get(Calendar.SECOND);
-        String FechaBack = String.valueOf(Dia +"/"+Mes+"/"+ Anio+" "+Hora+":"+Minuto+":"+Segundo);
+        Date fdate = new Date();
+        String FechaBack = fdate.getDay() +"/"+ fdate.getMonth()+"/2019";
         HacerNuevaDonacion(DatosList[0],Material,FechaBack,Peso,Descripcion,Evento,DatosList[0],FechaBack);
-        ActualizarDescriptores();
+        //ActualizarDescriptores();
     }//GEN-LAST:event_btDonarMouseClicked
     public void HacerNuevaDonacion(String usuario,String material,String fecha,String Peso, String descripcion, String evento, String usuariologueado, String fechaActual)
     {
         String nuevoRgistroDonacion = usuario +"|"+ material+"|"+fecha+"|"+ Peso +"|"+ descripcion +"|"+evento+"|"+usuariologueado+"|"+fechaActual+"|"+1;
         String llave = usuario +","+ material+","+fecha;
-        if (!Encontrado(usuario, material, fecha)) {
+        if (!Encontrado(usuario, material, fecha)) 
+        {
             String direccion = InsertarIndexadoMaster(nuevoRgistroDonacion, 3);
             InsertarIndexadoIndex(llave, direccion);
+            ActualizarDescriptores();
+            ActualizarDescriptorIndexDonacion();
         }
     }
     
@@ -226,7 +224,7 @@ public class HacerDonación extends javax.swing.JFrame {
             FileReader fr = new FileReader(ruta);
             BufferedReader br = new BufferedReader(fr);
             linea = br.readLine();
-            while(!linea.equals("")){
+            while(linea!=null){
                 lista.add(linea);
                 linea = br.readLine();
             }
@@ -281,16 +279,16 @@ public class HacerDonación extends javax.swing.JFrame {
             FileReader fr = new FileReader(ruta);
             BufferedReader br = new BufferedReader(fr);
             linea = br.readLine();
-            while (!linea.equals("")) {
+            while (linea!=null) {
                 lista.add(linea);
                 IndiceLinea++;
                 linea = br.readLine();
             }
             fr.close();
             br.close();
-            f.delete();
-            f.createNewFile();
-            if (IndiceLinea<MaxLineas) {
+            if (IndiceLinea<=MaxLineas) {
+                f.delete();
+                f.createNewFile();
                 FileWriter fw = new FileWriter(ruta);
                 BufferedWriter bw = new BufferedWriter(fw);
                 for (String x :lista) {
@@ -298,11 +296,13 @@ public class HacerDonación extends javax.swing.JFrame {
                     bw.newLine();
                 }
                 bw.write(LineaInsertar);
-                fw.close();
+                //fw.close();
                 bw.close();
                 Escrito = true;
                 direccion = Bloque+"."+IndiceLinea;
             }else{
+                IndiceLinea = 1;
+                lista = new ArrayList<>();
             }
             Bloque++;
             ruta = inicio + Bloque + ext;
@@ -326,7 +326,7 @@ public class HacerDonación extends javax.swing.JFrame {
             FileReader fr = new FileReader(ruta);
             BufferedReader br = new BufferedReader(fr);
             linea = br.readLine();
-            while(!linea.equals("")){
+            while(linea!=null){
                 lista.add(linea);
                 linea = br.readLine();
             }
@@ -336,12 +336,12 @@ public class HacerDonación extends javax.swing.JFrame {
             f.createNewFile();
             FileWriter fw = new FileWriter(ruta);
             BufferedWriter bw = new BufferedWriter(fw);
-            for (String x : lista){
-                bw.write(x);
-                bw.newLine();
-            }
-            fw.write(llave+","+direccion);
-            fw.close();
+            for (String x :lista) {
+                    bw.write(x);
+                    bw.newLine();
+                }
+                bw.write(llave+","+direccion);
+            //fw.close();
             bw.close();
         } catch (IOException ex) {
             Logger.getLogger(HacerDonación.class.getName()).log(Level.SEVERE, null, ex);
@@ -370,8 +370,9 @@ public class HacerDonación extends javax.swing.JFrame {
                 filefr = new FileReader(rutaFile);
                 filebr = new BufferedReader(filefr);
                 lineaFile = filebr.readLine();
-                while(!lineaFile.equals("")){
+                while(lineaFile!=null){
                     registros++;
+                    lineaFile = filebr.readLine();
                 }
                 filefr.close();
                 filebr.close();
@@ -387,12 +388,26 @@ public class HacerDonación extends javax.swing.JFrame {
                 if (usuarios.exists()) {
                     FileReader usuariofr = new FileReader(usuarios);
                     BufferedReader usuariosbr = new BufferedReader(usuariofr);
-                    usuarioCreador += usuariosbr.readLine().split("\\,")[0];
+                    String tempUser = usuariosbr.readLine();
+                    if (tempUser!=null){
+                        usuarioCreador += tempUser.split("\\|")[0];
+                    }else{
+                        File bitacora = new File("C:\\MEIA\\bitacora.txt");
+                        if (bitacora.exists()){
+                            FileReader bitacorafr = new FileReader(bitacora);
+                            BufferedReader bitacorabr = new BufferedReader(bitacorafr);
+                            tempUser = bitacorabr.readLine();
+                            if (tempUser!=null){
+                            usuarioCreador += tempUser.split("\\|")[0];
+                            }
+                            bitacorabr.close();
+                        }
+                    }
                     usuariofr.close();
                     usuariosbr.close();
                 }
                 Date fdate = new Date();
-                String fecha = "Fecha de creacion:"+ fdate.getDay() +"/"+ fdate.getMonth() +"/"+fdate.getYear();
+                String fecha = "Fecha de creacion:"+ fdate.getDay() +"/"+ fdate.getMonth() +"/2019";
                 String cantidadregistros = "Cantidad de registros:" + registros;
                 String cantidadregistrosactivos = "Cantidad de registros activos:" + registros;
                 String cantidadregistrosinactivos = "Cantidad de registros inactivos:" + 0;
@@ -411,16 +426,87 @@ public class HacerDonación extends javax.swing.JFrame {
                 descbw.newLine();
                 descbw.write(maxporbloquedato);
                 descbw.newLine();
-                descfw.close();
+                //descfw.close();
                 descbw.close();
             } catch (IOException ex) {
                 Logger.getLogger(HacerDonación.class.getName()).log(Level.SEVERE, null, ex);
             }
             Bloque++;
-        rutaDesc = inicioDesc+Bloque+ext;
-        rutaFile = inicioFile+Bloque+ext;
+            registros = 0;
+            rutaDesc = inicioDesc+Bloque+ext;
+            rutaFile = inicioFile+Bloque+ext;
+            fD = new File(rutaDesc);
+            fF = new File(rutaFile);
         }
     }
+    
+    public void ActualizarDescriptorIndexDonacion()
+    {
+        File index = new File("C:\\MEIA\\DonacionIndex.txt");
+        File desci = new File("C:\\MEIA\\DonacionIndexDesc.txt");
+        if (index.exists()){
+            try {
+                if (desci.exists()){
+                    desci.delete();
+                }
+                desci.createNewFile();
+                FileWriter descifw = new FileWriter(desci);
+                BufferedWriter descibw = new BufferedWriter(descifw);
+                String usuarioCreador = "Usuario creador:";
+                File usuarios = new File("C:\\MEIA\\usuario.txt");
+                if (usuarios.exists()) {
+                    FileReader usuariofr = new FileReader(usuarios);
+                    BufferedReader usuariosbr = new BufferedReader(usuariofr);
+                    String tempUser = usuariosbr.readLine();
+                    if (tempUser!=null){
+                        usuarioCreador += tempUser.split("\\|")[0];
+                    }else{
+                        File bitacora = new File("C:\\MEIA\\bitacora.txt");
+                        if (bitacora.exists()){
+                            FileReader bitacorafr = new FileReader(bitacora);
+                            BufferedReader bitacorabr = new BufferedReader(bitacorafr);
+                            tempUser = bitacorabr.readLine();
+                            if (tempUser!=null){
+                            usuarioCreador += tempUser.split("\\|")[0];
+                            }
+                            bitacorabr.close();
+                        }
+                    }
+                    usuariofr.close();
+                    usuariosbr.close();
+                }
+                FileReader indexfr = new FileReader(index);
+                BufferedReader indexbr = new BufferedReader(indexfr);
+                String temp = indexbr.readLine();
+                int registros = 0;
+                while (temp!=null){
+                    registros++;
+                    temp = indexbr.readLine();
+                }
+                indexfr.close();
+                indexbr.close();
+                Date fdate = new Date();
+                descibw.write("Nombre del Archivo:DonacionIndex.txt");
+                descibw.newLine();
+                descibw.write(usuarioCreador);
+                descibw.newLine();
+                descibw.write("Fecha creacion:" + fdate.getDay() + "/" + fdate.getMonth() + "/2019");
+                descibw.newLine();
+                descibw.write("Total registros:" + registros);
+                descibw.newLine();
+                descibw.write("Registros activos:" + registros);
+                descibw.newLine();
+                descibw.write("Registros inactivos:" + 0);
+                descibw.newLine();
+                descibw.close();
+            } catch (IOException ex) {
+                Logger.getLogger(HacerDonación.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+    }
+    
+    
     /**
      * @param args the command line arguments
      */ArrayList<String> Opciones = new ArrayList<String>();

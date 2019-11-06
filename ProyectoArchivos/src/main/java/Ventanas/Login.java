@@ -339,7 +339,7 @@ public void Reorganizar ()
                 }
                 UsuarioBitacora.close();
                 Bitacoratxt.close();
-                if ((lineasleidas.size()) > 6)
+                if ((lineasleidas.size()) > 5)
                 {
                     BitacoraA.delete();
                     BitacoraA.createNewFile();

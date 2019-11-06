@@ -6,6 +6,7 @@
 package Ventanas;
 
 import static Ventanas.PanelAdmin.BuscaDatos;
+import static Clases.DatosMateriales.DatosMaterialesList;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import javax.swing.JOptionPane;
@@ -97,7 +98,7 @@ public class ListaMateriales extends javax.swing.JFrame {
         String MaterialB = JOptionPane.showInputDialog("Nombre del material que busca");
         boolean MaterialEncontrado = false;
         String linealeida1 = "", linealeida2 ="";
-        try { //Se busca al usuario ingresado en el archivo de texto
+        try { //Se busca al material ingresado en el archivo de texto
                 FileReader BitacoraMateriales = new FileReader("C:/MEIA/materiales_bitacora.txt");
                 BufferedReader MaterialesBitacora = new BufferedReader(BitacoraMateriales);
                 while (((linealeida1 = MaterialesBitacora.readLine()) != null)) 
@@ -105,28 +106,33 @@ public class ListaMateriales extends javax.swing.JFrame {
                     if (linealeida1.contains(MaterialB)) 
                     { 
                         MaterialEncontrado = true;
-                        String [] DatosMaterial = linealeida1.split("|");
-                        String[] DatosMaterialesList = DatosMaterial;
+                        String [] DatosMaterial = linealeida1.split("\\|");
+                        DatosMaterialesList = DatosMaterial;
+                        break;
                     }
                 }
                 MaterialesBitacora.close();
                 BitacoraMateriales.close();
-                new BuscarMaterial().setVisible(true);
+                if(MaterialEncontrado)
+                {
+                    new BuscarMaterial().setVisible(true);
+                }
                 if (!MaterialEncontrado) 
                 {
-                    FileReader Materialestxt = new FileReader("C:/MEIA/materiales_bitacora.txt");
+                    FileReader Materialestxt = new FileReader("C:/MEIA/materiales.txt");
                     BufferedReader MaterialesArchivo = new BufferedReader(Materialestxt);
                     while (((linealeida2 = MaterialesArchivo.readLine()) != null)) 
                     {                    
                         if (linealeida2.contains(MaterialB)) 
                         { 
                             MaterialEncontrado = true;
-                            String [] DatosMaterial = linealeida1.split("|");
-                            String[] DatosMaterialesList = DatosMaterial;
+                            String [] DatosMaterial = linealeida2.split("\\|");
+                            DatosMaterialesList = DatosMaterial;
+                            break;
                         }
                     }
-                    MaterialesBitacora.close();
-                    BitacoraMateriales.close();
+                    MaterialesArchivo.close();
+                    Materialestxt.close();
                     new BuscarMaterial().setVisible(true);
                 }
                 if(!MaterialEncontrado)
@@ -143,6 +149,7 @@ public class ListaMateriales extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

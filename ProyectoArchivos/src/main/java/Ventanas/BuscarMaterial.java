@@ -28,7 +28,6 @@ public class BuscarMaterial extends javax.swing.JFrame {
         tfTiempo.setText(DatosMaterialesList[3]);
         tfUsuario.setText(DatosMaterialesList[4]);
         tfInicio.setText(DatosMaterialesList[5]);
-        
     }
 
     /**
@@ -55,6 +54,11 @@ public class BuscarMaterial extends javax.swing.JFrame {
         btEditar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Buscar Material");
@@ -171,8 +175,12 @@ public class BuscarMaterial extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btEditarMouseClicked
-        // TODO add your handling code here:
+        new EditarMaterial().setVisible(true);
     }//GEN-LAST:event_btEditarMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments

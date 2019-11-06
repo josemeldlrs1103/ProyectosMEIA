@@ -186,7 +186,7 @@ public class RegistrarMaterial extends javax.swing.JFrame {
                 try {
                     FileWriter Registrar = new FileWriter(Registro, true);
                     Registrar.write(InfoMaterial);
-                    Registrar.close();JOptionPane.showMessageDialog(null, "Se ha registrado exitosamente. \n Por favor inicie sesión");
+                    Registrar.close();JOptionPane.showMessageDialog(null, "Se ha registrado el material exitosamente");
                     this.setVisible(false);
                 } catch (IOException ex) {
                     Logger.getLogger(CrearUsuario.class.getName()).log(Level.SEVERE, null, ex);

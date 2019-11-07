@@ -41,8 +41,6 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
-        Reorganizar();
-        ActualizarDescriptores();
     }
 
     /**
@@ -403,7 +401,7 @@ public void Reorganizar ()
                 }
                 UsuarioBitacora.close();
                 Bitacoratxt.close();
-                if ((lineasleidas2.size()) > 4)
+                if ((lineasleidas2.size()) > 3)
                 {
                     BitacoraM.delete();
                     BitacoraM.createNewFile();

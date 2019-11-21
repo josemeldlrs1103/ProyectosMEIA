@@ -221,11 +221,11 @@ public class RegistrarMaterial extends javax.swing.JFrame {
         int Minuto = FechaTransaccion.get(Calendar.MINUTE);
         int Segundo = FechaTransaccion.get(Calendar.SECOND);
         String FechaRegistro = String.valueOf(Dia +"/"+Mes+"/"+ Anio+" "+Hora+":"+Minuto+":"+Segundo);
-        String InfoMaterial = tfNombre.getText() +"|"+ tfTipo.getText() +"|"+ tfImagen.getText() +"|"+ tfTiempo.getText()+"|"+Usuario+"|"+FechaRegistro+"|"+"1"+"\n";
+        String InfoMaterial = tfNombre.getText() +"|"+ tfTipo.getText() +"|"+ tfImagen.getText() +"|"+ tfTiempo.getText()+"|"+Usuario+"|"+FechaRegistro+"|"+"1";
         File Registro = new File ("C:/MEIA/materiales_bitacora.txt");
                 try {
                     FileWriter Registrar = new FileWriter(Registro, true);
-                    Registrar.write(InfoMaterial);
+                    Registrar.write(InfoMaterial+ "\n");
                     Registrar.close();JOptionPane.showMessageDialog(null, "Se ha registrado el material exitosamente");
                     this.setVisible(false);
                 } catch (IOException ex) {

@@ -144,7 +144,7 @@ public class HacerDonación extends javax.swing.JFrame {
         jLabel12.setText("Mes");
         getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 140, 41, -1));
 
-        jLabel7.setIcon(new javax.swing.ImageIcon("C:\\Users\\josei\\Desktop\\Screenshot_2019-11-06 URL(1).png")); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon("C:\\MEIA\\fotografia\\Logo.png")); // NOI18N
         jLabel7.setText("jLabel7");
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 620, 600));
 
@@ -268,7 +268,7 @@ public class HacerDonación extends javax.swing.JFrame {
         int IndiceLinea = 1;
         String ext = ".txt";
         String inicio = "C:\\MEIA\\Donacion_";
-        String ruta = inicio + Bloque + ext;
+        String ruta = inicio + Bloque + ext;//C:\\MEIA\\Donacion_1.txt
         String linea = "";
         String direccion = "";
         ArrayList<String> lista = new ArrayList<>();

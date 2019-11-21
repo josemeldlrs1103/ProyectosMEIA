@@ -5,8 +5,10 @@
  */
 package Ventanas;
 import Clases.VerificadorPassword;
+import Ventanas.PanelAdmin;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -313,7 +315,39 @@ public class CrearUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btCargarFotoMouseClicked
 
     private void btRegistrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btRegistrarMouseClicked
-        //Verificar que los campos están llenos
+        boolean UsuarioEncontrado = false;
+        String LineaUsuario ="";
+        try { //Se verifica si el usuario existe
+                FileReader RegistroenBitacora = new FileReader("C:/MEIA/bitacora.txt");
+                BufferedReader BuscadoenBitacora = new BufferedReader(RegistroenBitacora);
+                while (((LineaUsuario = BuscadoenBitacora.readLine()) != null)) 
+                {   
+                   if(LineaUsuario.contains(tfUsuario.getText()))
+                   {
+                       UsuarioEncontrado = true;
+                       break;
+                   }
+                }
+                BuscadoenBitacora.close();
+                RegistroenBitacora.close();
+                FileReader RegistroenArchivo = new FileReader("C:/MEIA/usuario.txt");
+                BufferedReader BuscadoenArchivo = new BufferedReader(RegistroenArchivo);
+                while (((LineaUsuario = BuscadoenArchivo.readLine()) != null)) 
+                {   
+                   if(LineaUsuario.contains(tfUsuario.getText()))
+                   {
+                       UsuarioEncontrado = true;
+                       break;
+                   }
+                }
+                BuscadoenArchivo.close();
+                RegistroenArchivo.close();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null,e.getMessage());
+            }
+        if(UsuarioEncontrado == false)
+        {
+            //Verificar que los campos están llenos
         if ((tfUsuario.getText().equals("")) || (tfNombre.getText().equals("")) || (tfApellido.getText().equals("")) || (tfContrasena.getPassword().length==0)  || (tfTelefono.getText().equals("")) || (tfCorreo.getText().equals("")) || (tfImagen.getText().equals("")))
                 {
                     JOptionPane.showMessageDialog(null,"Para completar el registro es necesario que se rellenen todos los campos del formulario");
@@ -346,6 +380,18 @@ public class CrearUsuario extends javax.swing.JFrame {
                     Logger.getLogger(CrearUsuario.class.getName()).log(Level.SEVERE, null, ex);
                 }
         }
+        Reorganizar();
+        ActualizarDescriptores();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "El usuario ya existe.");
+            this.dispose();
+            PanelAdmin Inicio = new PanelAdmin();
+            Inicio.setVisible(true);
+            
+        }
+        
     }//GEN-LAST:event_btRegistrarMouseClicked
 
     /**
@@ -400,7 +446,7 @@ public class CrearUsuario extends javax.swing.JFrame {
 public void Reorganizar ()
 {
     String linealeida1,linealeida2;
-    int numerolinea=1;
+    int numerolinea=0;
     ArrayList<String> MaterialesReorganizar = new ArrayList<String>();
     //Reorganización materiales-matarialesbitacora
     File BitacoraM = new File ("C:/MEIA/bitacora.txt");
@@ -411,7 +457,7 @@ public void Reorganizar ()
                 BufferedReader UsuarioBitacora = new BufferedReader(Bitacoratxt);
                 while (((linealeida1 = UsuarioBitacora.readLine()) != null)) 
                 {   
-                    if (numerolinea < 4)
+                    if (numerolinea < 5)
                     {
                         lineasleidas2.add(linealeida1);
                         numerolinea++;
@@ -419,60 +465,42 @@ public void Reorganizar ()
                     else
                     {
                         MaterialNuevo = linealeida1;
+                        numerolinea++;
                     }
                 }
                 UsuarioBitacora.close();
                 Bitacoratxt.close();
-                if ((numerolinea) == 4)
+                if ((numerolinea) == 6)
                 {
                     BitacoraM.delete();
                     BitacoraM.createNewFile();
-                    FileWriter GuardarNuevoMaterial = new FileWriter (BitacoraM, true);
-                    GuardarNuevoMaterial.write(MaterialNuevo);
-                    GuardarNuevoMaterial.close();
+                    if (MaterialNuevo != null)
+                    {
+                        FileWriter GuardarNuevoMaterial = new FileWriter (BitacoraM, true);
+                        GuardarNuevoMaterial.write(MaterialNuevo+"\n");
+                        GuardarNuevoMaterial.close();
+                    }
                     FileReader Usuariotxt = new FileReader("C:/MEIA/usuario.txt");
                     BufferedReader UsuarioFile = new BufferedReader(Usuariotxt);
-                    if ((linealeida2 = UsuarioFile.readLine())!= null)
-                    {
-                        lineasleidas2.add(linealeida2);
-                        while((linealeida2 = UsuarioFile.readLine())!= null)
+                    while((linealeida2 = UsuarioFile.readLine())!= null)
                         {
                             lineasleidas2.add(linealeida2);
                         }
-                        UsuarioFile.close();
-                        Usuariotxt.close();
-                        Collections.sort(lineasleidas2,String.CASE_INSENSITIVE_ORDER);
-                        MaterialesA.delete();
-                        MaterialesA.createNewFile();
-                        FileWriter GuardarCambio = new FileWriter (MaterialesA, true);
-                        for(var linea : lineasleidas2)
-                        {
-                           String [] VerificarEstado = linea.split("\\|");
-                           if (VerificarEstado[6].equals("1"))
-                           {
-                               GuardarCambio.write(linea +"\n");
-                           }
-                        }
-                        GuardarCambio.close();
-                    }
-                    else
-                    {
-                        Collections.sort(lineasleidas2,String.CASE_INSENSITIVE_ORDER);
-                        MaterialesA.delete();
-                        FileWriter GuardarCambio = new FileWriter (MaterialesA, true);
-                        MaterialesA.createNewFile();
-                        for(var linea : lineasleidas2)
-                        {
-                           String [] VerificarEstado = linea.split("\\|");
-                           if (VerificarEstado[6].equals("1"))
-                           {
-                               GuardarCambio.write(linea +"\n");
-                           }
-                        }
-                        GuardarCambio.close();
-                    }
                     UsuarioFile.close();
                     Usuariotxt.close();
+                    Collections.sort(lineasleidas2,String.CASE_INSENSITIVE_ORDER);
+                    MaterialesA.delete();
+                    MaterialesA.createNewFile();
+                    FileWriter GuardarCambio = new FileWriter (MaterialesA, true);
+                    for(var linea : lineasleidas2)
+                    {
+                        String [] VerificarEstado = linea.split("\\|");
+                        if (VerificarEstado[10].equals("1"))
+                        {
+                            GuardarCambio.write(linea +"\n");
+                        }
+                    }
+                    GuardarCambio.close();
                 } 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null,e.getMessage());
@@ -481,35 +509,35 @@ public void Reorganizar ()
 }
 public void ActualizarDescriptores()
 {
-    //Variables que se usan para la actualización de desc_materialesbitacora
-    int TotalRMB=0, TotalAMB = 0, TotalIMB=0;
-    ArrayList<String> CantidadMaterialesBitacora = new ArrayList<String>();
-    File DescMB = new File("C:/MEIA/desc_bitacora.txt");
+    //Variables que se usan para la actualización de desc_bitacora
+    int TotalR=0, TotalA = 0, TotalI=0;
+    ArrayList<String> LineaDescriptor = new ArrayList<String>();
+    File DescriptorBitacora = new File("C:/MEIA/desc_bitacora.txt");
     String linealeida3 ="";
     try 
     { //Se busca al usuario ingresado en el archivo de texto
-        FileReader Materiales = new FileReader("C:/MEIA/bitacora.txt");
-        BufferedReader CantMateriales = new BufferedReader(Materiales);
-        while ((linealeida3 = CantMateriales.readLine())!= null)
+        FileReader Bitacora = new FileReader("C:/MEIA/bitacora.txt");
+        BufferedReader BufferBitacora = new BufferedReader(Bitacora);
+        while ((linealeida3 = BufferBitacora.readLine())!= null)
         {
             String[] VerificarEstado = linealeida3.split("\\|");
-            if (VerificarEstado[6].equals("1"))
+            if (VerificarEstado[10].equals("1"))
             {
-                TotalAMB ++;
+                TotalA ++;
             }
             else
             {
-                TotalIMB ++;
+                TotalI ++;
             }
         }
-        CantMateriales.close();
-        Materiales.close();
-        TotalRMB = TotalAMB + TotalIMB;
-        FileReader DescMateriales = new FileReader("C:/MEIA/desc_bitacora.txt");
-        BufferedReader DescMat = new BufferedReader(DescMateriales);
-        while ((linealeida3 = DescMat.readLine())!= null)
+        BufferBitacora.close();
+        Bitacora.close();
+        TotalR = TotalA + TotalI;
+        FileReader Descriptor = new FileReader("C:/MEIA/desc_bitacora.txt");
+        BufferedReader BufferDescriptor = new BufferedReader(Descriptor);
+        while ((linealeida3 = BufferDescriptor.readLine())!= null)
         {
-            CantidadMaterialesBitacora.add(linealeida3);      
+            LineaDescriptor.add(linealeida3);      
         }
         Calendar FechaTransaccion = Calendar.getInstance();
         int Anio = FechaTransaccion.get(Calendar.YEAR);
@@ -519,54 +547,54 @@ public void ActualizarDescriptores()
         int Minuto = FechaTransaccion.get(Calendar.MINUTE);
         int Segundo = FechaTransaccion.get(Calendar.SECOND);
         String Modificar = String.valueOf(Dia +"/"+Mes+"/"+ Anio+" "+Hora+":"+Minuto+":"+Segundo);
-        CantidadMaterialesBitacora.set(2, ("F_modificación: " + Modificar));
-        CantidadMaterialesBitacora.set(4, ("cantidad_total " + TotalRMB));
-        CantidadMaterialesBitacora.set(5, ("cantidad_activos: " + TotalAMB));
-        CantidadMaterialesBitacora.set(6, ("cantidad_inactivos: " + TotalIMB));
-        DescMat.close();
-        DescMateriales.close();
-        DescMB.delete();
-        DescMB.createNewFile();
-        FileWriter ModificarDescMB = new FileWriter(DescMB, true);
-        for(String lineadesc : CantidadMaterialesBitacora)
+        LineaDescriptor.set(2, ("F_modificación: " + Modificar));
+        LineaDescriptor.set(4, ("cantidad_total: " + TotalR));
+        LineaDescriptor.set(5, ("cantidad_activos: " + TotalA));
+        LineaDescriptor.set(6, ("cantidad_inactivos: " + TotalI));
+        BufferDescriptor.close();
+        Descriptor.close();
+        DescriptorBitacora.delete();
+        DescriptorBitacora.createNewFile();
+        FileWriter ModificarDescriptorBitacora = new FileWriter(DescriptorBitacora, true);
+        for(String lineadesc : LineaDescriptor)
         {
-            ModificarDescMB.write(lineadesc + "\n");
+            ModificarDescriptorBitacora.write(lineadesc + "\n");
         }
-        ModificarDescMB.close();
+        ModificarDescriptorBitacora.close();
            
     } catch (Exception e) 
     {
         JOptionPane.showMessageDialog(null,e.getMessage());
     }
     //Variables que se usan para la actualización de desc_usuario
-    int TotalRM=0, TotalAM = 0, TotalIM=0;
-    ArrayList<String> CantidadMaterialestxt = new ArrayList<String>();
-    File DescM = new File("C:/MEIA/desc_materiales.txt");
+    int TotalRA=0, TotalAA = 0, TotalIA=0;
+    ArrayList<String> RegistrosArchivo = new ArrayList<String>();
+    File DescriptorArchivo = new File("C:/MEIA/desc_usuario.txt");
     String linealeida4 ="";
     try 
     { //Se busca al usuario ingresado en el archivo de texto
-        FileReader Materiales = new FileReader("C:/MEIA/usuario.txt");
-        BufferedReader CantMateriales = new BufferedReader(Materiales);
-        while ((linealeida4 = CantMateriales.readLine())!= null)
+        FileReader Archivo = new FileReader("C:/MEIA/usuario.txt");
+        BufferedReader BufferArchivo = new BufferedReader(Archivo);
+        while ((linealeida4 = BufferArchivo.readLine())!= null)
         {
             String[] VerificarEstado = linealeida4.split("\\|");
-            if (VerificarEstado[6].equals("1"))
+            if (VerificarEstado[10].equals("1"))
             {
-                TotalAM ++;
+                TotalAA ++;
             }
             else
             {
-                TotalIM ++;
+                TotalIA ++;
             }
         }
-        CantMateriales.close();
-        Materiales.close();
-        TotalRM = TotalAM + TotalIM;
-        FileReader DescMateriales = new FileReader("C:/MEIA/desc_materiales.txt");
-        BufferedReader DescMateria = new BufferedReader(DescMateriales);
-        while ((linealeida4 = DescMateria.readLine())!= null)
+        BufferArchivo.close();
+        Archivo.close();
+        TotalRA = TotalAA + TotalIA;
+        FileReader DescriptorAr = new FileReader("C:/MEIA/desc_materiales.txt");
+        BufferedReader BufferDescriptorAr = new BufferedReader(DescriptorAr);
+        while ((linealeida4 = BufferDescriptorAr.readLine())!= null)
         {
-            CantidadMaterialestxt.add(linealeida4);      
+            RegistrosArchivo.add(linealeida4);      
         }
         Calendar FechaTransaccion = Calendar.getInstance();
         int Anio = FechaTransaccion.get(Calendar.YEAR);
@@ -576,21 +604,21 @@ public void ActualizarDescriptores()
         int Minuto = FechaTransaccion.get(Calendar.MINUTE);
         int Segundo = FechaTransaccion.get(Calendar.SECOND);
         String Modificar = String.valueOf(Dia +"/"+Mes+"/"+ Anio+" "+Hora+":"+Minuto+":"+Segundo);
-        CantidadMaterialestxt.set(2, ("F_modificación: " + Modificar));
-        CantidadMaterialestxt.set(3, ("cantiad_total: " + TotalRM));
-        CantidadMaterialestxt.set(4, ("Cantidad_activos: " + TotalAM));
-        CantidadMaterialestxt.set(5, ("Cantidad_inactivos: " + TotalIM));
-        DescMateria.close();
-        DescMateriales.close();
-        DescM.delete();
-        DescM.createNewFile();
-        FileWriter ModificarDescM = new FileWriter(DescM, true);
-        for(String lineadesc : CantidadMaterialestxt)
+        RegistrosArchivo.set(2, ("F_modificación: " + Modificar));
+        RegistrosArchivo.set(3, ("cantiad_total: " + TotalRA));
+        RegistrosArchivo.set(4, ("Cantidad_activos: " + TotalAA));
+        RegistrosArchivo.set(5, ("Cantidad_inactivos: " + TotalIA));
+        BufferDescriptorAr.close();
+        DescriptorAr.close();
+        DescriptorArchivo.delete();
+        DescriptorArchivo.createNewFile();
+        FileWriter ModificarDescriptorArchivo = new FileWriter(DescriptorArchivo, true);
+        for(String lineadesc : RegistrosArchivo)
         {
-            ModificarDescM.write(lineadesc + "\n");
+            ModificarDescriptorArchivo.write(lineadesc + "\n");
         }
         
-        ModificarDescM.close();           
+        ModificarDescriptorArchivo.close();           
     } catch (Exception e) 
     {
         JOptionPane.showMessageDialog(null,e.getMessage());

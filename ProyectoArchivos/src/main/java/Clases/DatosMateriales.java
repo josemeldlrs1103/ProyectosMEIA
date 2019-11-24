@@ -12,4 +12,5 @@ package Clases;
 public class DatosMateriales {
     public static String[] DatosMaterialesList;
     public static String Indice;
+    public static ArbolBinario ArbolMateriales = new ArbolBinario();
 }

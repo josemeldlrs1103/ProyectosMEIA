@@ -187,6 +187,10 @@ public class HacerDonación extends javax.swing.JFrame {
                 }
                 Materialestxt.close();
                 Materiales.close();
+                for(String mat : Opciones)
+        {
+            this.jcMateriales.addItem(mat);
+        }
                 ////////////////////////////////////////////////////////////////////////////////////////////
                 FileReader DonadoresRegistro = new FileReader("C:/MEIA/bitacora.txt");
                 BufferedReader DonadoresBitacora = new BufferedReader(DonadoresRegistro);
@@ -210,10 +214,6 @@ public class HacerDonación extends javax.swing.JFrame {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null,e.getMessage());
             }
-        for(String mat : Opciones)
-        {
-            this.jcMateriales.addItem(mat);
-        }
         for(String Don : Donadores)
         {
             this.jcDonador.addItem(Don);

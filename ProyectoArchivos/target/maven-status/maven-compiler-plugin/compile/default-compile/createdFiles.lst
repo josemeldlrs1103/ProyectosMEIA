@@ -1,6 +1,7 @@
 Ventanas\PanelUsuario$4.class
 Ventanas\PanelAdmin$6.class
 Ventanas\EditarUsuarioB$2.class
+Ventanas\RegistroBinario.class
 Ventanas\CrearUsuario$3.class
 Ventanas\RegistrarMaterial$2.class
 Ventanas\EditarMaterial$2.class
@@ -14,6 +15,7 @@ Ventanas\HacerDonación.class
 Ventanas\PanelUsuario$1.class
 Ventanas\EditarUsuarioA$1.class
 Ventanas\PanelAdmin$3.class
+Ventanas\RegistroBinario$3.class
 Ventanas\VerDonacion$1.class
 Ventanas\PanelAdmin.class
 Ventanas\EditarUsuarioB.class
@@ -34,11 +36,13 @@ Ventanas\HacerDonación$1.class
 Ventanas\EditarUsuarioB$3.class
 Ventanas\PanelAdmin$7.class
 Ventanas\PanelAdmin$8.class
+Ventanas\RegistroBinario$2.class
 Ventanas\BuscarMaterial.class
 Ventanas\EditarMaterial.class
 Ventanas\PanelUsuario$2.class
 Ventanas\ListaMateriales$1.class
 Ventanas\EditarUsuarioC.class
+Ventanas\ListaMateriales$4.class
 Ventanas\Login$3.class
 Ventanas\VerDonacion$3.class
 Ventanas\PanelAdmin$1.class
@@ -54,6 +58,7 @@ Ventanas\EditarUsuarioC$2.class
 Ventanas\BuscarDonacion$2.class
 Clases\ArchivosIniciales.class
 Ventanas\RegistrarMaterial$1.class
+Clases\Nodo.class
 Ventanas\HacerDonación$2.class
 Ventanas\PanelAdmin$2.class
 Ventanas\ListaMateriales.class
@@ -62,11 +67,14 @@ Ventanas\EditarUsuarioA$3.class
 Ventanas\Login$2.class
 Ventanas\RegistrarMaterial.class
 Ventanas\PanelAdmin$9.class
+Ventanas\RegistroBinario$1.class
 Ventanas\PanelAdmin$5.class
 Ventanas\EditarMaterial$3.class
 Ventanas\BuscarUsuario$1.class
 Clases\Backup.class
+Clases\ArbolBinario.class
 Ventanas\EditarUsuarioA.class
 Ventanas\ListaMateriales$2.class
 Ventanas\BuscarMaterial$2.class
 Ventanas\EditarUsuarioC$3.class
+Clases\ArbolBinario$Nodo.class

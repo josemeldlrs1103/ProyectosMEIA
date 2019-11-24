@@ -41,6 +41,7 @@ public class RegistroBinario extends javax.swing.JFrame {
      * Creates new form RegistroBinario
      */
     public RegistroBinario() {
+        ObtenerArbol();
         File ArchivoBinario = new File("C:\\MEIA\\Materiales2.txt");
         File DescriptorArchivoBinario = new File("C:\\MEIA\\des_Materiales2.txt");
         Date fecha = new Date();
@@ -64,12 +65,10 @@ public class RegistroBinario extends javax.swing.JFrame {
             writer.write("cantidad_activos:0\n");
             writer.write("cantidad_inactivos:0\n");
             writer.close();
-                
             } catch (IOException ex) {
                 Logger.getLogger(RegistroBinario.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
         initComponents();
     }
 
@@ -264,7 +263,7 @@ public class RegistroBinario extends javax.swing.JFrame {
                             .addComponent(jLabel12)
                             .addComponent(jLabel10)
                             .addComponent(cbAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
@@ -400,6 +399,24 @@ public class RegistroBinario extends javax.swing.JFrame {
             ImpNodo.write(HijoIzq+ "/"+ HijoDer+"/"+NodoActual.Nombre+"/"+NodoActual.Tipo+"/"+NodoActual.Imagen+NodoActual.Degradacion+"/"+NodoActual.Usuario+"/"+NodoActual.Creacion+"/"+NodoActual.Estatus);
             EscribirNodo(NodoActual.HDerecho,ImpNodo);
         }
+    }
+    public void ObtenerArbol()
+    {
+        String linealeida1;
+        try { //Se busca al usuario ingresado en el archivo de texto
+                FileReader BitacoraMateriales = new FileReader("C:/MEIA/Materiales2.txt");
+                BufferedReader MaterialesBitacora = new BufferedReader(BitacoraMateriales);
+                while (((linealeida1 = MaterialesBitacora.readLine()) != null)) 
+                {   
+                    String[]Separar = linealeida1.split("\\|");
+                    String RegistroPrevio = Separar[2]+Separar[3]+Separar[4]+Separar[5]+Separar[6]+Separar[7]+Separar[8];
+                    ArbolMateriales.AgregarNodo(RegistroPrevio);
+                }
+                MaterialesBitacora.close();
+                BitacoraMateriales.close();                     
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null,e.getMessage());
+            }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCargarImagen;

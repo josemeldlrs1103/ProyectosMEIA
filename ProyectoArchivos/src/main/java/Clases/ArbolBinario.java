@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  */
 public class ArbolBinario 
 {
-    Nodo Raiz;
+    public Nodo Raiz;
 	public boolean AgregarNodo(String Cadena) {
 		if (Raiz == null) {
 			Raiz = new Nodo(Cadena);

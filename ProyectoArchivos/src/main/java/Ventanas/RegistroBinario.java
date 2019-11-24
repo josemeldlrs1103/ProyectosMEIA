@@ -312,6 +312,7 @@ public class RegistroBinario extends javax.swing.JFrame {
        //EscribirArbolEnArchivo(ArbolMateriales.raiz);
        JOptionPane.showMessageDialog(null, "Registro completado");
        ArbolMateriales.PreOrden();
+       ArbolMateriales.Raiz = null;
        this.setVisible(false);
     }//GEN-LAST:event_jButton1MouseClicked
 
@@ -402,6 +403,7 @@ public class RegistroBinario extends javax.swing.JFrame {
     }
     public void ObtenerArbol()
     {
+        ArbolMateriales.Raiz = null;
         String linealeida1;
         try { //Se busca al usuario ingresado en el archivo de texto
                 FileReader BitacoraMateriales = new FileReader("C:/MEIA/Materiales2.txt");
@@ -409,7 +411,7 @@ public class RegistroBinario extends javax.swing.JFrame {
                 while (((linealeida1 = MaterialesBitacora.readLine()) != null)) 
                 {   
                     String[]Separar = linealeida1.split("\\|");
-                    String RegistroPrevio = Separar[2]+Separar[3]+Separar[4]+Separar[5]+Separar[6]+Separar[7]+Separar[8];
+                    String RegistroPrevio = Separar[2]+"|"+Separar[3]+"|"+Separar[4]+"|"+Separar[5]+"|"+Separar[6]+"|"+Separar[7]+"|"+Separar[8];
                     ArbolMateriales.AgregarNodo(RegistroPrevio);
                 }
                 MaterialesBitacora.close();

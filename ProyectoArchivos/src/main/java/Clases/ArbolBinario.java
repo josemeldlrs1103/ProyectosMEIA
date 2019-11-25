@@ -182,7 +182,7 @@ public class ArbolBinario
                         }
                             if (this.HijoIzq != null)
                             this.HijoIzq.InOrden();
-                            ReporteMateriales.add(this.Nombre+"|"+this.Estado);
+                            ReporteMateriales.add(this.Nombre+"|"+this.Tipo+"|"+this.Imagen+"|"+this.Tiempo);
                             if (this.HijoDer != null)
                                 this.HijoDer.InOrden();
 			}

@@ -11,10 +11,31 @@ import static Clases.DatosMateriales.ReporteMateriales;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.table.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.io.File;
+import java.util.Vector;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -27,16 +48,21 @@ public class Reportes extends javax.swing.JFrame {
      */
     public Reportes() {
         initComponents();
+        AgregarEncabezados();
         
     }
     public class Elemento
     {
         public String Nombre;
-        public String Estado;
-        public Elemento(String Nombre, String Estado)
+        public String Tipo;
+        public String Imagen;
+        public String Degradado;
+        public Elemento(String Nombre,String Tipo, String Imagen,String Tiempo)
         {
             this.Nombre = Nombre;
-            this.Estado = Estado;
+            this.Tipo = Tipo;
+            this.Imagen = Imagen;
+            this.Degradado= Tiempo;
         }
     }
     
@@ -46,29 +72,14 @@ public class Reportes extends javax.swing.JFrame {
         for (String Linea : ReporteMateriales)
         {
             String[] Valores = Linea.split("\\|");
-            Elemento Valor = new Elemento(Valores[0],Valores[1]);
+            Elemento Valor = new Elemento(Valores[0],Valores[1],Valores[2],Valores[3]);
             ListaMateriales.add(Valor);
         }
         return ListaMateriales;
     }
     public void AgregarFila()
     {
-        DefaultTableModel Modelo = (DefaultTableModel) jtabMateriales.getModel();
-        ArrayList<Elemento> ListaMateriales = MaterialesReportados();
-        Object FilaDatos[] = new Object[2];
-        for(int i =0; i< ListaMateriales.size();i++)
-        {
-            FilaDatos[0] =  ListaMateriales.get(i).Nombre;
-            if((ListaMateriales.get(i).Estado).equals("1"))
-            {
-                FilaDatos[1] = "Activo";
-            }
-            else
-            {
-                FilaDatos[1] = "Inactivo";
-            }
-            Modelo.addRow(FilaDatos);
-        }
+        
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -80,8 +91,9 @@ public class Reportes extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jtabMateriales = new javax.swing.JTable();
+        jMateriales = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -93,23 +105,22 @@ public class Reportes extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Materiales Registrados");
 
-        jtabMateriales.setModel(new javax.swing.table.DefaultTableModel(
+        jButton1.setText("cerrar");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
+        jMateriales.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nombre", "Estado"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
             }
-        });
-        jScrollPane1.setViewportView(jtabMateriales);
+        ));
+        jScrollPane1.setViewportView(jMateriales);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -118,31 +129,86 @@ public class Reportes extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(191, 191, 191)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(22, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(108, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    DefaultTableModel model;
+    String Nombre = "";
+    String Tipo = "";
+    String Degradado = "";
+    String Estado = "";
+    String Imagen = "";
+    public void AgregarEncabezados() {
+        model = (DefaultTableModel) jMateriales.getModel();
+        Object[] newIdentifiers = new Object[]{"Nombre", "Tipo", "Degradado", "Estado", "Imagen"};
+        model.setColumnIdentifiers(newIdentifiers);
+        jMateriales.setFillsViewportHeight(true);
+        jMateriales.getColumn("Imagen").setCellRenderer(new CellRenderer());
 
+    }
+
+    class CellRenderer implements TableCellRenderer {
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table,
+                Object value,
+                boolean isSelected,
+                boolean hasFocus,
+                int row,
+                int column) {
+            TableColumn tb = jMateriales.getColumn("Imagen");
+            tb.setMaxWidth(60);
+            tb.setMinWidth(60);
+            jMateriales.setRowHeight(60);
+            return (Component) value;
+        }
+
+    }
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        ReporteMateriales.clear();
+        LimpiarTabla();
         ObtenerArbol();
         int i=0;
         ArbolMateriales.Inorden();
-        AgregarFila();
+        for(String Registro : ReporteMateriales)
+        {
+            String [] Campos = Registro.split("\\|");
+            Nombre = Campos[0];
+            Tipo = Campos[1];
+            Imagen = Campos[2];
+            Degradado =Campos[3];
+            Estado = "Activo";
+            JLabel ImagenLabel = new JLabel();
+            ImageIcon Icono = new ImageIcon(Imagen);
+            Image imag = Icono.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+            ImagenLabel.setIcon(new ImageIcon(imag));
+            model.addRow(new Object[]{Nombre,Tipo, Degradado, Estado,ImagenLabel});          
+        }
+        
     }//GEN-LAST:event_formWindowOpened
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        this.dispose();
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -200,9 +266,15 @@ public class Reportes extends javax.swing.JFrame {
             }
     }
 
+      public void LimpiarTabla()
+      {
+          DefaultTableModel Modelo = (DefaultTableModel) jMateriales.getModel();
+          Modelo.setRowCount(0);
+      }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JTable jMateriales;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jtabMateriales;
     // End of variables declaration//GEN-END:variables
 }

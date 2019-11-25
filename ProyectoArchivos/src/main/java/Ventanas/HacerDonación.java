@@ -169,24 +169,15 @@ public class HacerDonación extends javax.swing.JFrame {
         ArrayList<String> Donadores = new ArrayList<String>(); 
         ArrayList<String> Opciones = new ArrayList<String>();
         try { //Se busca al usuario ingresado en el archivo de texto
-                FileReader BitacoraMateriales = new FileReader("C:/MEIA/materiales_bitacora.txt");
+                FileReader BitacoraMateriales = new FileReader("C:/MEIA/Materiales2.txt");
                 BufferedReader MaterialesBitacora = new BufferedReader(BitacoraMateriales);
                 while (((linealeida1 = MaterialesBitacora.readLine()) != null)) 
                 {   
                     String [] ExtraerMaterial = linealeida1.split("\\|");
-                    Opciones.add(ExtraerMaterial[0]);
+                    Opciones.add(ExtraerMaterial[3]);
                 }
                 MaterialesBitacora.close();
                 BitacoraMateriales.close();
-                FileReader Materiales = new FileReader("C:/MEIA/materiales.txt");
-                BufferedReader Materialestxt = new BufferedReader(Materiales);
-                while (((linealeida1 = Materialestxt.readLine()) != null)) 
-                {   
-                    String [] ExtraerMaterial = linealeida1.split("\\|");
-                    Opciones.add(ExtraerMaterial[0]);
-                }
-                Materialestxt.close();
-                Materiales.close();
                 for(String mat : Opciones)
         {
             this.jcMateriales.addItem(mat);

@@ -33,24 +33,15 @@ public class BuscarDonacion extends javax.swing.JFrame {
         ArrayList<String> Donadores = new ArrayList<String>();
         ArrayList<String> Opciones = new ArrayList<String>();
         try { //Se busca al usuario ingresado en el archivo de texto
-                FileReader BitacoraMateriales = new FileReader("C:/MEIA/materiales_bitacora.txt");
+                FileReader BitacoraMateriales = new FileReader("C:/MEIA/Materiales2.txt");
                 BufferedReader MaterialesBitacora = new BufferedReader(BitacoraMateriales);
                 while (((linealeida1 = MaterialesBitacora.readLine()) != null)) 
                 {   
                     String [] ExtraerMaterial = linealeida1.split("\\|");
-                    Opciones.add(ExtraerMaterial[0]);
+                    Opciones.add(ExtraerMaterial[3]);
                 }
                 MaterialesBitacora.close();
                 BitacoraMateriales.close();
-                FileReader Materiales = new FileReader("C:/MEIA/materiales.txt");
-                BufferedReader Materialestxt = new BufferedReader(Materiales);
-                while (((linealeida1 = Materialestxt.readLine()) != null)) 
-                {   
-                    String [] ExtraerMaterial = linealeida1.split("\\|");
-                    Opciones.add(ExtraerMaterial[0]);
-                }
-                Materialestxt.close();
-                Materiales.close();
                 ////////////////////////////////////////////////////////////////////
                 FileReader DonadoresRegistro = new FileReader("C:/MEIA/bitacora.txt");
                 BufferedReader DonadoresBitacora = new BufferedReader(DonadoresRegistro);
@@ -82,7 +73,7 @@ public class BuscarDonacion extends javax.swing.JFrame {
         {
             this.cbDonador.addItem(Don);
         }
-        tfDia.setValue(Integer.class);
+
     }
 public String BuscarDonacion(String usuario, String material, String fecha)
     {
@@ -145,8 +136,8 @@ public void ResultadoBusqueda(String usuario, String material, String fecha)
         cbYear = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        tfDia = new javax.swing.JFormattedTextField();
         cbDonador = new javax.swing.JComboBox<>();
+        cbDia = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -174,6 +165,8 @@ public void ResultadoBusqueda(String usuario, String material, String fecha)
             }
         });
 
+        cbDia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -190,10 +183,10 @@ public void ResultadoBusqueda(String usuario, String material, String fecha)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(tfDia, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addComponent(cbDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(32, 32, 32)
                                 .addComponent(cbMes, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(35, 35, 35)
                                 .addComponent(cbYear, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(cbMaterial, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cbDonador, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -216,7 +209,7 @@ public void ResultadoBusqueda(String usuario, String material, String fecha)
                     .addComponent(jLabel3)
                     .addComponent(cbMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -231,7 +224,7 @@ public void ResultadoBusqueda(String usuario, String material, String fecha)
         // TODO add your handling code here:
         String usuario = String.valueOf(cbDonador.getSelectedItem());
         String material = cbMaterial.getSelectedItem().toString();
-        String fecha = tfDia.getText() + "/" + cbMes.getSelectedItem() + "/" + cbYear.getSelectedItem();
+        String fecha = cbDia.getSelectedItem()+ "/" + cbMes.getSelectedItem() + "/" + cbYear.getSelectedItem();
         ResultadoBusqueda(usuario,material,fecha);
     }//GEN-LAST:event_jButton1MouseClicked
 
@@ -406,7 +399,7 @@ public void ResultadoBusqueda(String usuario, String material, String fecha)
     {
         String usuario = String.valueOf(cbDonador.getSelectedItem());
         String material = cbMaterial.getSelectedItem().toString();
-        String fecha = tfDia.getText() + "/" + cbMes.getSelectedItem() + "/" + cbYear.getSelectedItem();
+        String fecha = cbDia.getSelectedItem()+ "/" + cbMes.getSelectedItem() + "/" + cbYear.getSelectedItem();
         String direccion =  BuscarDonacion(usuario, material, fecha);
         if (direccion != null) {
             String bloque = direccion.split("\\.")[0];
@@ -451,7 +444,7 @@ public void ResultadoBusqueda(String usuario, String material, String fecha)
     {
         String usuario = String.valueOf(cbDonador.getSelectedItem());
         String material = cbMaterial.getSelectedItem().toString();
-        String fecha = tfDia.getText() + "/" + cbMes.getSelectedItem() + "/" + cbYear.getSelectedItem();
+        String fecha = cbDia.getSelectedItem()+ "/" + cbMes.getSelectedItem() + "/" + cbYear.getSelectedItem();
         String direccion =  BuscarDonacion(usuario, material, fecha);
         int linea = Integer.parseInt(direccion.split("\\.")[1]);
         String ruta = "C:\\MEIA\\DonacionIndex.txt";
@@ -520,6 +513,7 @@ public void ResultadoBusqueda(String usuario, String material, String fecha)
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cbDia;
     private javax.swing.JComboBox<String> cbDonador;
     private javax.swing.JComboBox<String> cbMaterial;
     private javax.swing.JComboBox<String> cbMes;
@@ -529,6 +523,5 @@ public void ResultadoBusqueda(String usuario, String material, String fecha)
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JFormattedTextField tfDia;
     // End of variables declaration//GEN-END:variables
 }

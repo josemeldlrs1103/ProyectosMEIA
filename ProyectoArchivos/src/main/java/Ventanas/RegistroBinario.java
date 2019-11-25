@@ -31,6 +31,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import javax.swing.JOptionPane;
 
@@ -60,10 +61,9 @@ public class RegistroBinario extends javax.swing.JFrame {
         {
             try {
                 FileWriter writer = new FileWriter(DescriptorArchivoBinario, true); 
-            writer.write("Nombre:Bitacora\n");
+            writer.write("Nombre:Materiales 2 Bitacora\n");
             writer.write("F_creacion:"+fecha.toString()+"\n");
             writer.write("F_modificacion:"+fecha.toString()+"\n");
-            writer.write("Max_organizacion:5\n");
             writer.write("cantidad_total:0\n");
             writer.write("cantidad_activos:0\n");
             writer.write("cantidad_inactivos:0\n");
@@ -318,6 +318,7 @@ public class RegistroBinario extends javax.swing.JFrame {
        ArbolMateriales.PreOrden();
        ArbolMateriales.Raiz = null;
        EscribirArchivo();
+       ActualizarDescriptor();
        this.setVisible(false);
     }//GEN-LAST:event_jButton1MouseClicked
 
@@ -404,6 +405,64 @@ public class RegistroBinario extends javax.swing.JFrame {
             Logger.getLogger(RegistroBinario.class.getName()).log(Level.SEVERE, null, ex);
         }
         int prueba =1;
+    }
+    public void ActualizarDescriptor()
+    {
+        ArrayList<String> CantidadRegistros = new ArrayList<String>();
+        int A=0, I=0, T=0;
+        String linealeida1;
+        try { //Se busca al usuario ingresado en el archivo de texto
+                FileReader BitacoraMateriales = new FileReader("C:/MEIA/Materiales2.txt");
+                BufferedReader MaterialesBitacora = new BufferedReader(BitacoraMateriales);
+                while (((linealeida1 = MaterialesBitacora.readLine()) != null)) 
+                {   
+                    String[]Separar = linealeida1.split("\\|");
+                    if (Separar[9].equals("1"))
+                    {
+                        A++;
+                    }
+                    else
+                    {
+                        I++;
+                    }
+                }
+                MaterialesBitacora.close();
+                BitacoraMateriales.close();
+                T=A+I;           
+                /////////////////////////////////////////////////////////////////////////////////////
+                FileReader Materiales2Descriptor = new FileReader("C:/MEIA/des_Materiales2.txt");
+                BufferedReader Materiales2Lector = new BufferedReader(Materiales2Descriptor);
+                while (((linealeida1 = Materiales2Lector.readLine()) != null)) 
+                {   
+                    CantidadRegistros.add(linealeida1);
+                }
+                Materiales2Lector.close();
+                Materiales2Descriptor.close();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null,e.getMessage());
+            }
+        Calendar FechaTransaccion = Calendar.getInstance();
+        int Anio = FechaTransaccion.get(Calendar.YEAR);
+        int Mes = FechaTransaccion.get(Calendar.MONTH);
+        int Dia = FechaTransaccion.get(Calendar.DAY_OF_MONTH);
+        String Modificar = String.valueOf(Dia +"/"+Mes+"/"+ Anio);
+        CantidadRegistros.set(2, ("F_modificación: " + Modificar));
+        CantidadRegistros.set(3, ("cantidad_total: " + T));
+        CantidadRegistros.set(4, ("cantidad_activos: " + A));
+        CantidadRegistros.set(5, ("cantidad_inactivos: " + I));
+        File DescriptorMateriales = new File("C:/MEIA/des_Materiales2.txt");
+        DescriptorMateriales.delete();
+        try {
+            DescriptorMateriales.createNewFile();
+            FileWriter ActualizarArchivoBin = new FileWriter(DescriptorMateriales, true);
+            for(String linea : CantidadRegistros)
+            {
+                ActualizarArchivoBin.write(linea+"\n");
+            }
+            ActualizarArchivoBin.close();
+        } catch (IOException ex) {
+            Logger.getLogger(RegistroBinario.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCargarImagen;

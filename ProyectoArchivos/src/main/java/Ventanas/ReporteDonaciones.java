@@ -5,6 +5,19 @@
  */
 package Ventanas;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import static Clases.DatosMateriales.ReporteDonaciones;
+import static Clases.DatosMateriales.ReporteMateriales;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author josei
@@ -16,8 +29,59 @@ public class ReporteDonaciones extends javax.swing.JFrame {
      */
     public ReporteDonaciones() {
         initComponents();
+        LeerDonaciones();
+        addRowToJTable();
     }
 
+    public class Donacion
+    {
+        public String Nombre;
+        public String Material;
+        public String Fecha;
+        public String Peso;
+        public String Descripcion;
+        public String Evento;
+        public Donacion(String Nombre,String Material,String Fecha,String Peso,String Descripcion,String Evento)
+        {
+            this.Nombre = Nombre;
+            this.Material = Material;
+            this.Fecha = Fecha;
+            this.Peso = Peso;
+            this.Descripcion = Descripcion;
+            this.Evento = Evento;
+                    
+        }
+        
+    }
+    public ArrayList ListaDonaciones()
+    {
+        ArrayList<Donacion> DonacionesList = new ArrayList<Donacion>();
+        for (String Linea : ReporteDonaciones)
+        {
+            String[] Valores = Linea.split("\\|");
+            Donacion Valor = new Donacion(Valores[0],Valores[1],Valores[2],Valores[3],Valores[4],Valores[5]);
+            DonacionesList.add(Valor);
+        }
+        return DonacionesList;
+    }
+    public void addRowToJTable()
+    {
+        DefaultTableModel model = (DefaultTableModel) jDonacion.getModel();
+        ArrayList<Donacion> list = ListaDonaciones();
+        
+        Object rowData[] = new Object[6];
+        for(int i = 0; i < list.size(); i++)
+        {
+            rowData[0] = list.get(i).Nombre;
+            rowData[1] = list.get(i).Material;
+            rowData[2] = list.get(i).Fecha;
+            rowData[3] = list.get(i).Peso;
+            rowData[4] = list.get(i).Descripcion;
+            rowData[5] = list.get(i).Evento;
+            model.addRow(rowData);
+        }
+                
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -44,9 +108,14 @@ public class ReporteDonaciones extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jDonacion = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Reportes de Donaciones");
@@ -89,18 +158,15 @@ public class ReporteDonaciones extends javax.swing.JFrame {
 
         jButton1.setText("Filtrar");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jDonacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Usuario", "Material", "Fecha", "Peso", "Descripcion", "Title 6"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jDonacion);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -186,6 +252,26 @@ public class ReporteDonaciones extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    DefaultTableModel model;
+    String Usuario = "";
+    String Material = "";
+    String Fecha = "";
+    String Peso = "";
+    String Descripcion = "";
+    String Evento="";
+    public void AgregarEncabezados() {
+        model = (DefaultTableModel) jDonacion.getModel();
+        Object[] newIdentifiers = new Object[]{"Usuario", "Material", "Fecha", "Peso", "Descripcion","Evento"};
+        model.setColumnIdentifiers(newIdentifiers);
+        jDonacion.setFillsViewportHeight(true);
+    }
+    
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+
+        
+        
+    }//GEN-LAST:event_formWindowOpened
+
     /**
      * @param args the command line arguments
      */
@@ -220,6 +306,40 @@ public class ReporteDonaciones extends javax.swing.JFrame {
             }
         });
     }
+    
+public void LeerDonaciones()
+{
+    String linealeida1="";
+    int Bloque = 20;
+    for (int i = 1; i<Bloque; i++)
+    {
+        String Ruta = "C:\\MEIA\\Donacion_" + i + ".txt";
+        File BloqueD = new File(Ruta);
+        if (BloqueD.exists())
+        {
+            try { //Se busca al usuario ingresado en el archivo de texto
+                FileReader BitacoraMateriales = new FileReader(BloqueD);
+                BufferedReader MaterialesBitacora = new BufferedReader(BitacoraMateriales);
+                while (((linealeida1 = MaterialesBitacora.readLine()) != null)) 
+                {   
+                   String [] Separador = linealeida1.split("\\|");
+                   String Donacion = Separador[0]+"|"+Separador[1]+"|"+Separador[2]+"|"+Separador[3]+"|"+Separador[4]+"|"+Separador[5];
+                   ReporteDonaciones.add(Donacion);
+                }
+                MaterialesBitacora.close();
+                BitacoraMateriales.close();                     
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null,e.getMessage());
+            }
+            
+        }
+        else
+        {
+            break;
+        }
+        
+    }
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cbAnio;
@@ -229,6 +349,7 @@ public class ReporteDonaciones extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbMes;
     private javax.swing.JComboBox<String> cbMes1;
     private javax.swing.JButton jButton1;
+    private javax.swing.JTable jDonacion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -239,6 +360,5 @@ public class ReporteDonaciones extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

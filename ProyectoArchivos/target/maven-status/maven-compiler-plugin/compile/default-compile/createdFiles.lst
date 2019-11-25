@@ -4,6 +4,7 @@ Ventanas\PanelAdmin$6.class
 Ventanas\EditarUsuarioB$2.class
 Ventanas\RegistroBinario.class
 Ventanas\CrearUsuario$3.class
+Ventanas\PanelAdmin$11.class
 Ventanas\RegistrarMaterial$2.class
 Ventanas\EditarMaterial$2.class
 Ventanas\Login.class
@@ -27,7 +28,6 @@ Ventanas\VerDonacion$2.class
 Ventanas\BuscarMaterial$1.class
 Ventanas\HacerDonación$4.class
 Ventanas\EditarMaterial$1.class
-Ventanas\ImagenIc.class
 Ventanas\RegistrarMaterial$3.class
 Ventanas\BuscarUsuario.class
 Ventanas\PanelAdmin$10.class
@@ -41,6 +41,7 @@ Ventanas\HacerDonación$1.class
 Ventanas\EditarUsuarioB$3.class
 Ventanas\Reportes$2.class
 Ventanas\PanelAdmin$7.class
+Ventanas\ReporteDonaciones$2.class
 Ventanas\PanelAdmin$8.class
 Ventanas\RegistroBinario$2.class
 Ventanas\BuscarMaterial.class
@@ -62,6 +63,7 @@ Ventanas\PanelUsuario.class
 Clases\DatosUsuario.class
 Ventanas\CrearUsuario$2.class
 Ventanas\EditarUsuarioC$2.class
+Ventanas\ReporteDonaciones$Donacion.class
 Ventanas\BuscarDonacion$2.class
 Clases\ArchivosIniciales.class
 Ventanas\RegistrarMaterial$1.class

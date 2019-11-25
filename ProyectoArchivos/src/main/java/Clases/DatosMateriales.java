@@ -18,4 +18,5 @@ public class DatosMateriales {
     public static int ContadorNodos =0;
     public static ArrayList<String> RegistrarNodos = new ArrayList<String>();
     public static ArrayList<String> ReporteMateriales = new ArrayList<String>();
+    public static ArrayList<String> ReporteDonaciones = new ArrayList<String>();
 }

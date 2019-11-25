@@ -5,6 +5,8 @@
  */
 package Clases;
 
+import static Clases.DatosMateriales.ContadorNodos;
+import static Clases.DatosMateriales.RegistrarNodos;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -42,6 +44,7 @@ public class ArbolBinario
 	private class Nodo {
 		private Nodo HijoIzq;
 		private Nodo HijoDer;
+                private int Indice;
 		private String Nombre;
                 private String Tipo;
                 private String Imagen;
@@ -51,12 +54,13 @@ public class ArbolBinario
                 private String Estado;
 		private Nodo(String Cadena) {
 			String[] Campos = Cadena.split("\\|");
-			Nombre = Campos[0]; 
-                        Tipo = Campos[1]; 
-                        Imagen = Campos[2]; 
-                        Tiempo = Campos[3];
-                        Usuario = Campos[4]; 
-                        Creacion = Campos[5];
+                        Indice = Integer.parseInt(Campos[0]);
+			Nombre = Campos[1]; 
+                        Tipo = Campos[2]; 
+                        Imagen = Campos[3]; 
+                        Tiempo = Campos[4];
+                        Usuario = Campos[5]; 
+                        Creacion = Campos[6];
                         Estado = "1";
 			HijoIzq = null;
 			HijoDer = null;
@@ -66,16 +70,17 @@ public class ArbolBinario
                         String[] Campos = Cadena.split("\\|");
 			if (this == null) 
                         {         
-			    Nombre = Campos[0]; 
-                            Tipo = Campos[1]; 
-                            Imagen = Campos[2]; 
-                            Tiempo = Campos[3];
-                            Usuario = Campos[4]; 
-                            Creacion = Campos[5];
+			    Indice = Integer.parseInt(Campos[0]);
+			    Nombre = Campos[1]; 
+                            Tipo = Campos[2]; 
+                            Imagen = Campos[3]; 
+                            Tiempo = Campos[4];
+                            Usuario = Campos[5]; 
+                            Creacion = Campos[6];
                             Estado = "1";
 			}
 			else {
-				if (Campos[0].compareToIgnoreCase(this.Nombre) < 0 ) {
+				if (Campos[1].compareToIgnoreCase(this.Nombre) < 0 ) {
 					if (this.HijoIzq == null) {
 						this.HijoIzq = new Nodo(Cadena);
 						return true;
@@ -83,7 +88,7 @@ public class ArbolBinario
 					else 
 						Agregado = this.HijoIzq.Insertar(Cadena);
 				}
-				else if (Campos[0].compareToIgnoreCase(this.Nombre) > 0) {
+				else if (Campos[1].compareToIgnoreCase(this.Nombre) > 0) {
 					if (this.HijoDer == null) {
 						this.HijoDer = new Nodo(Cadena);
 						return true;
@@ -112,14 +117,14 @@ public class ArbolBinario
 		private void Preorden() 
                 {
                     File Materiales2 = new File ("C:/MEIA/Materiales2.txt");
-                    try {
+                    
                         if (this != null) 
                     {
                         String MaterialIzq;
                         String MaterialDer;
                         if (this.HijoIzq==null)
                         {
-                            MaterialIzq = "Vacio";
+                            MaterialIzq = "-1";
                         }
                         else
                         {
@@ -127,15 +132,18 @@ public class ArbolBinario
                         }
                         if (this.HijoDer == null)
                         {
-                            MaterialDer = "Vacio";
+                            MaterialDer = "-1";
                         }
                         else
                         {
                             MaterialDer = this.HijoDer.Nombre;
                         }
-                        FileWriter EscribirNodo = new FileWriter (Materiales2, true);
-                        EscribirNodo.write(MaterialIzq+"|"+MaterialDer+"|"+this.Nombre+"|"+this.Tipo+"|"+this.Imagen+"|"+this.Tiempo+"|"+this.Usuario+"|"+this.Creacion+"|"+this.Estado+"\n");
-			EscribirNodo.close();
+                        //FileWriter EscribirNodo = new FileWriter (Materiales2, true);
+                        //EscribirNodo.write(MaterialIzq+"|"+MaterialDer+"|"+this.Nombre+"|"+this.Tipo+"|"+this.Imagen+"|"+this.Tiempo+"|"+this.Usuario+"|"+this.Creacion+"|"+this.Estado+"\n");
+			//EscribirNodo.close();
+                        RegistrarNodos.add(this.Indice+"|"+MaterialIzq+"|"+MaterialDer+"|"+this.Nombre+"|"+this.Tipo+"|"+this.Imagen+"|"+this.Tiempo+"|"+this.Usuario+"|"+this.Creacion+"|"+this.Estado+"\n");
+                        
+                        
                         if (this.HijoIzq != null)
                         {
                             this.HijoIzq.Preorden();
@@ -144,9 +152,6 @@ public class ArbolBinario
                         {
                             this.HijoDer.Preorden();
 			}
-                    }
-                    } catch (IOException ex) {
-                        Logger.getLogger(ArbolBinario.class.getName()).log(Level.SEVERE, null, ex);
                     }
 		}
 	}

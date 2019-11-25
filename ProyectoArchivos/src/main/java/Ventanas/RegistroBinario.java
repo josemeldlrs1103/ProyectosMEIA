@@ -9,6 +9,8 @@ package Ventanas;
 import Clases.ArbolBinario;
 import Clases.ArchivosIniciales;
 import static Clases.DatosMateriales.ArbolMateriales;
+import static Clases.DatosMateriales.ContadorNodos;
+import static Clases.DatosMateriales.RegistrarNodos;
 import Clases.Nodo;
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,6 +31,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import javax.swing.JOptionPane;
 
 /**
@@ -304,15 +307,17 @@ public class RegistroBinario extends javax.swing.JFrame {
        String Mes = String.valueOf(cbMes.getSelectedItem());
        String Año = String.valueOf(cbAnio.getSelectedItem());
        String Fecha = Dia + "/" + Mes + "/" + Año;
-       String Cadena = Nombre+"|"+Tipo+"|"+Imagen+"|"+Tiempo+"|"+Usuario+"|"+Fecha;
-       
+       ContadorNodos++;
+       String Cadena = ContadorNodos+"|"+Nombre+"|"+Tipo+"|"+Imagen+"|"+Tiempo+"|"+Usuario+"|"+Fecha;
        ArbolMateriales.AgregarNodo(Cadena);
        //ArbolBinario ArbolMateriales = new ArbolBinario();
        //ArbolMateriales.AgregarNodo(Nombre, Tipo, Imagen, Tiempo, Usuario, Fecha);
        //EscribirArbolEnArchivo(ArbolMateriales.raiz);
        JOptionPane.showMessageDialog(null, "Registro completado");
+       RegistrarNodos.clear();
        ArbolMateriales.PreOrden();
        ArbolMateriales.Raiz = null;
+       EscribirArchivo();
        this.setVisible(false);
     }//GEN-LAST:event_jButton1MouseClicked
 
@@ -364,45 +369,9 @@ public class RegistroBinario extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }
-    public void EscribirArbolEnArchivo(Nodo NodoArbol)
-    {
-        try {
-            FileOutputStream Salida = new FileOutputStream("C:\\MEIA\\Materiales2.txt");
-            PrintWriter ImprimirNodo = new PrintWriter(Salida);
-            EscribirNodo(NodoArbol,ImprimirNodo);
-            ImprimirNodo.flush();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(RegistroBinario.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    public void EscribirNodo(Nodo NodoActual, PrintWriter ImpNodo)
-    {
-        if(NodoActual != null)
-        {
-            if(NodoActual.HIzquierdo ==null)
-            {
-                HijoIzq = "Vacío";
-            }
-            else
-            {
-                HijoIzq = NodoActual.HIzquierdo.Nombre;
-            }
-             if(NodoActual.HDerecho == null)
-            {
-                HijoDer = "Vacío";
-            }
-            else
-            {
-                HijoDer = NodoActual.HDerecho.Nombre;
-            }
-            
-            EscribirNodo(NodoActual.HIzquierdo, ImpNodo);
-            ImpNodo.write(HijoIzq+ "/"+ HijoDer+"/"+NodoActual.Nombre+"/"+NodoActual.Tipo+"/"+NodoActual.Imagen+NodoActual.Degradacion+"/"+NodoActual.Usuario+"/"+NodoActual.Creacion+"/"+NodoActual.Estatus);
-            EscribirNodo(NodoActual.HDerecho,ImpNodo);
-        }
-    }
     public void ObtenerArbol()
     {
+        ContadorNodos=0;
         ArbolMateriales.Raiz = null;
         String linealeida1;
         try { //Se busca al usuario ingresado en el archivo de texto
@@ -410,8 +379,9 @@ public class RegistroBinario extends javax.swing.JFrame {
                 BufferedReader MaterialesBitacora = new BufferedReader(BitacoraMateriales);
                 while (((linealeida1 = MaterialesBitacora.readLine()) != null)) 
                 {   
+                    ContadorNodos++;
                     String[]Separar = linealeida1.split("\\|");
-                    String RegistroPrevio = Separar[2]+"|"+Separar[3]+"|"+Separar[4]+"|"+Separar[5]+"|"+Separar[6]+"|"+Separar[7]+"|"+Separar[8];
+                    String RegistroPrevio = Separar[0]+"|"+Separar[3]+"|"+Separar[4]+"|"+Separar[5]+"|"+Separar[6]+"|"+Separar[7]+"|"+Separar[8]+"|"+Separar[9];
                     ArbolMateriales.AgregarNodo(RegistroPrevio);
                 }
                 MaterialesBitacora.close();
@@ -419,6 +389,21 @@ public class RegistroBinario extends javax.swing.JFrame {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null,e.getMessage());
             }
+    }
+    public void EscribirArchivo()
+    {
+        Collections.sort(RegistrarNodos);
+        try {
+            FileWriter GuardarNodo = new FileWriter("C:/MEIA/Materiales2.txt", true);
+            for(String Linea: RegistrarNodos)
+            {
+                GuardarNodo.write(Linea);
+            }
+            GuardarNodo.close();
+        } catch (IOException ex) {
+            Logger.getLogger(RegistroBinario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        int prueba =1;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCargarImagen;

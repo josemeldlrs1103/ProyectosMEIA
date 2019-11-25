@@ -7,6 +7,7 @@ package Clases;
 
 import static Clases.DatosMateriales.ContadorNodos;
 import static Clases.DatosMateriales.RegistrarNodos;
+import static Clases.DatosMateriales.ReporteMateriales;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -39,6 +40,12 @@ public class ArbolBinario
 		if (Raiz != null) {
 			System.out.println("Preorden:");
 			Raiz.Preorden();
+		}
+	}
+        public void Inorden() {
+		if (Raiz != null) {
+			System.out.println("Inorder:");
+			Raiz.InOrden();
 		}
 	}
 	private class Nodo {
@@ -138,9 +145,6 @@ public class ArbolBinario
                         {
                             MaterialDer = this.HijoDer.Nombre;
                         }
-                        //FileWriter EscribirNodo = new FileWriter (Materiales2, true);
-                        //EscribirNodo.write(MaterialIzq+"|"+MaterialDer+"|"+this.Nombre+"|"+this.Tipo+"|"+this.Imagen+"|"+this.Tiempo+"|"+this.Usuario+"|"+this.Creacion+"|"+this.Estado+"\n");
-			//EscribirNodo.close();
                         RegistrarNodos.add(this.Indice+"|"+MaterialIzq+"|"+MaterialDer+"|"+this.Nombre+"|"+this.Tipo+"|"+this.Imagen+"|"+this.Tiempo+"|"+this.Usuario+"|"+this.Creacion+"|"+this.Estado+"\n");
                         
                         
@@ -154,5 +158,34 @@ public class ArbolBinario
 			}
                     }
 		}
-	}
+	        private void InOrden() 
+                {
+			if (this != null) 
+                        {
+                            String MaterialIzq;
+                        String MaterialDer;
+                        if (this.HijoIzq==null)
+                        {
+                            MaterialIzq = "-1";
+                        }
+                        else
+                        {
+                            MaterialIzq = this.HijoIzq.Nombre;
+                        }
+                        if (this.HijoDer == null)
+                        {
+                            MaterialDer = "-1";
+                        }
+                        else
+                        {
+                            MaterialDer = this.HijoDer.Nombre;
+                        }
+                            if (this.HijoIzq != null)
+                            this.HijoIzq.InOrden();
+                            ReporteMateriales.add(this.Nombre+"|"+this.Estado);
+                            if (this.HijoDer != null)
+                                this.HijoDer.InOrden();
+			}
+		}
+        }
 }

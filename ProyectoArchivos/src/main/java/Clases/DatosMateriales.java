@@ -19,4 +19,5 @@ public class DatosMateriales {
     public static ArrayList<String> RegistrarNodos = new ArrayList<String>();
     public static ArrayList<String> ReporteMateriales = new ArrayList<String>();
     public static ArrayList<String> ReporteDonaciones = new ArrayList<String>();
+    public static ArrayList<String> ReporteDonacionesFiltradas = new ArrayList<String>();
 }

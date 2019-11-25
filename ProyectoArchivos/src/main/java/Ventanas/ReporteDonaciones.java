@@ -14,8 +14,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static Clases.DatosMateriales.ReporteDonaciones;
+import static Clases.DatosMateriales.ReporteDonacionesFiltradas;
 import static Clases.DatosMateriales.ReporteMateriales;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -82,6 +86,35 @@ public class ReporteDonaciones extends javax.swing.JFrame {
         }
                 
     }
+    public ArrayList ListaDonacionesF()
+    {
+        ArrayList<Donacion> DonacionesList = new ArrayList<Donacion>();
+        for (String Linea : ReporteDonacionesFiltradas)
+        {
+            String[] Valores = Linea.split("\\|");
+            Donacion Valor = new Donacion(Valores[0],Valores[1],Valores[2],Valores[3],Valores[4],Valores[5]);
+            DonacionesList.add(Valor);
+        }
+        return DonacionesList;
+    }
+    public void addRowToJTableFiltro()
+    {
+        DefaultTableModel model = (DefaultTableModel) jDonacion.getModel();
+        ArrayList<Donacion> list = ListaDonacionesF();
+        
+        Object rowData[] = new Object[6];
+        for(int i = 0; i < list.size(); i++)
+        {
+            rowData[0] = list.get(i).Nombre;
+            rowData[1] = list.get(i).Material;
+            rowData[2] = list.get(i).Fecha;
+            rowData[3] = list.get(i).Peso;
+            rowData[4] = list.get(i).Descripcion;
+            rowData[5] = list.get(i).Evento;
+            model.addRow(rowData);
+        }
+                
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -132,9 +165,14 @@ public class ReporteDonaciones extends javax.swing.JFrame {
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel12.setText("Mes");
 
-        cbDia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", " " }));
+        cbDia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", " " }));
 
-        cbMes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+        cbMes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" }));
+        cbMes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbMesActionPerformed(evt);
+            }
+        });
 
         cbAnio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1970", "1971", "1972", "1973", "1974", "1975", "1976", "1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", " ", " " }));
 
@@ -147,16 +185,26 @@ public class ReporteDonaciones extends javax.swing.JFrame {
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel13.setText("Mes");
 
-        cbDia1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", " " }));
+        cbDia1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", " " }));
 
-        cbMes1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+        cbMes1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" }));
 
         cbAnio1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1970", "1971", "1972", "1973", "1974", "1975", "1976", "1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", " ", " " }));
+        cbAnio1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbAnio1ActionPerformed(evt);
+            }
+        });
 
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel9.setText("Día");
 
         jButton1.setText("Filtrar");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         jDonacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -272,6 +320,30 @@ public class ReporteDonaciones extends javax.swing.JFrame {
         
     }//GEN-LAST:event_formWindowOpened
 
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        String FechaI = String.valueOf(cbDia.getSelectedItem()+"/"+cbMes.getSelectedItem()+"/"+cbAnio.getSelectedItem());
+        String FechaF = String.valueOf(cbDia1.getSelectedItem()+"/"+cbMes1.getSelectedItem()+"/"+cbAnio1.getSelectedItem());
+        for (String linea : ReporteDonaciones)
+        {
+            String []SepararFecha = linea.split("\\|");
+            String FechaBuscada = SepararFecha[2];
+            if (EstaEntre(FechaI,FechaF,FechaBuscada)==true)
+            {
+                ReporteDonacionesFiltradas.add(linea);
+            }
+        }
+        new DonacionesFiltradas().setVisible(true);
+        
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void cbAnio1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAnio1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbAnio1ActionPerformed
+
+    private void cbMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbMesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -339,6 +411,27 @@ public void LeerDonaciones()
         }
         
     }
+}
+public boolean EstaEntre (String FechaInicio, String FechaFinal, String FechaEvaluar)
+{
+    boolean resultado = false;
+    SimpleDateFormat Formato = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date Inicio = Formato.parse(FechaInicio);
+            Date Fin = Formato.parse(FechaFinal);
+            Date Evaluar = Formato.parse(FechaEvaluar);
+            if (Evaluar.before(Fin)&& Evaluar.after(Inicio))
+            {
+                resultado = true;
+            }
+            else if (Evaluar.equals(Fin) || Evaluar.equals(Inicio))
+                    {
+                        resultado = true;
+                    }            
+        } catch (ParseException ex) {
+            Logger.getLogger(ReporteDonaciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    return resultado;
 }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

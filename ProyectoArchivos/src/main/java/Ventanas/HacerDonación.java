@@ -43,13 +43,11 @@ public class HacerDonación extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         tfDescripcion = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         taEvento = new javax.swing.JTextArea();
-        jcMateriales = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         tfPeso = new javax.swing.JTextField();
         btDonar = new javax.swing.JButton();
@@ -60,7 +58,11 @@ public class HacerDonación extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jcMateriales = new javax.swing.JComboBox<>();
+        jcDonador = new javax.swing.JComboBox<>();
+        jLabel11 = new javax.swing.JLabel();
+        btCerrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -72,38 +74,31 @@ public class HacerDonación extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Hacer Donaciones");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 50, -1, -1));
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setText("Material:");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 20, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("Descripción:");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 190, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 200, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("Evento:");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 250, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 260, -1, -1));
 
         tfDescripcion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        getContentPane().add(tfDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 190, 215, -1));
+        getContentPane().add(tfDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 200, 215, -1));
 
         taEvento.setColumns(20);
         taEvento.setRows(5);
         jScrollPane1.setViewportView(taEvento);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 250, 215, -1));
-
-        jcMateriales.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        getContentPane().add(jcMateriales, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 100, 215, -1));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 260, 215, -1));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setText("Peso:");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 220, -1, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, -1, -1));
 
         tfPeso.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        getContentPane().add(tfPeso, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 220, 215, -1));
+        getContentPane().add(tfPeso, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 230, 215, -1));
 
         btDonar.setText("Donar");
         btDonar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -111,91 +106,137 @@ public class HacerDonación extends javax.swing.JFrame {
                 btDonarMouseClicked(evt);
             }
         });
-        getContentPane().add(btDonar, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 190, 103, -1));
+        getContentPane().add(btDonar, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 200, 103, -1));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setText("Fecha:");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 140, -1, -1));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 150, -1, -1));
 
         cbDia.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         cbDia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", " " }));
-        getContentPane().add(cbDia, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 140, -1, -1));
+        getContentPane().add(cbDia, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 150, -1, -1));
 
         cbMes.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        cbMes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre", " " }));
-        getContentPane().add(cbMes, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, -1, -1));
+        cbMes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+        getContentPane().add(cbMes, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 150, -1, -1));
 
         cbAnio.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         cbAnio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1970", "1971", "1972", "1973", "1974", "1975", "1976", "1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", " ", " " }));
-        getContentPane().add(cbAnio, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 140, 77, -1));
+        getContentPane().add(cbAnio, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 150, 77, -1));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel8.setText("Día");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 140, 33, -1));
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 150, 33, -1));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel10.setText("Año");
-        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 140, 42, -1));
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, 42, -1));
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel12.setText("Mes");
-        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 140, 41, -1));
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 150, 41, -1));
 
-        jLabel7.setIcon(new javax.swing.ImageIcon("C:\\Users\\josei\\Desktop\\Screenshot_2019-11-06 URL(1).png")); // NOI18N
-        jLabel7.setText("jLabel7");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 620, 600));
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel9.setText("Material:");
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, -1, -1));
+
+        jcMateriales.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        getContentPane().add(jcMateriales, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 110, 215, -1));
+
+        jcDonador.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        getContentPane().add(jcDonador, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 60, 215, -1));
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel11.setText("Donador:");
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, -1, -1));
+
+        btCerrar.setText("Cerrar");
+        btCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btCerrarMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 260, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         String linealeida1="";
+        ArrayList<String> Donadores = new ArrayList<String>(); 
         ArrayList<String> Opciones = new ArrayList<String>();
         try { //Se busca al usuario ingresado en el archivo de texto
-                FileReader BitacoraMateriales = new FileReader("C:/MEIA/materiales_bitacora.txt");
+                FileReader BitacoraMateriales = new FileReader("C:/MEIA/Materiales2.txt");
                 BufferedReader MaterialesBitacora = new BufferedReader(BitacoraMateriales);
                 while (((linealeida1 = MaterialesBitacora.readLine()) != null)) 
                 {   
                     String [] ExtraerMaterial = linealeida1.split("\\|");
-                    Opciones.add(ExtraerMaterial[0]);
+                    Opciones.add(ExtraerMaterial[3]);
                 }
                 MaterialesBitacora.close();
                 BitacoraMateriales.close();
-                FileReader Materiales = new FileReader("C:/MEIA/materiales.txt");
-                BufferedReader Materialestxt = new BufferedReader(Materiales);
-                while (((linealeida1 = Materialestxt.readLine()) != null)) 
+                for(String mat : Opciones)
+        {
+            this.jcMateriales.addItem(mat);
+        }
+                ////////////////////////////////////////////////////////////////////////////////////////////
+                FileReader DonadoresRegistro = new FileReader("C:/MEIA/bitacora.txt");
+                BufferedReader DonadoresBitacora = new BufferedReader(DonadoresRegistro);
+                while (((linealeida1 = DonadoresBitacora.readLine()) != null)) 
                 {   
-                    String [] ExtraerMaterial = linealeida1.split("\\|");
-                    Opciones.add(ExtraerMaterial[0]);
+                    String [] NombreDonador = linealeida1.split("\\|");
+                    Donadores.add(NombreDonador[0]);
                 }
-                Materialestxt.close();
-                Materiales.close();
-                
+                DonadoresBitacora.close();
+                DonadoresRegistro.close();
+                FileReader DonadoresArchivo = new FileReader("C:/MEIA/usuario.txt");
+                BufferedReader DonadoresLector = new BufferedReader(DonadoresArchivo);
+                while (((linealeida1 = DonadoresLector.readLine()) != null)) 
+                {   
+                    String [] NombreDonador = linealeida1.split("\\|");
+                    Donadores.add(NombreDonador[0]);
+                }
+                DonadoresLector.close();
+                DonadoresArchivo.close();                
                 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null,e.getMessage());
             }
-        for(String mat : Opciones)
+        for(String Don : Donadores)
         {
-            this.jcMateriales.addItem(mat);
+            this.jcDonador.addItem(Don);
         }
     }//GEN-LAST:event_formWindowOpened
 
     private void btDonarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btDonarMouseClicked
+        String Usuario = String.valueOf(jcDonador.getSelectedItem());
         String Material = String.valueOf(jcMateriales.getSelectedItem());
         String Descripcion = tfDescripcion.getText();
         String Peso = tfPeso.getText();
         String Evento = taEvento.getText();
         Calendar FechaTransaccion = Calendar.getInstance();
         Date fdate = new Date();
-
+        int Anio = FechaTransaccion.get(Calendar.YEAR);
+        int Mes = FechaTransaccion.get(Calendar.MONTH);
+        int Dia = FechaTransaccion.get(Calendar.DAY_OF_MONTH);
+        int Hora = FechaTransaccion.get(Calendar.HOUR_OF_DAY);
+        int Minuto = FechaTransaccion.get(Calendar.MINUTE);
+        int Segundo = FechaTransaccion.get(Calendar.SECOND);
+        String Modificar = String.valueOf(Dia +"/"+Mes+"/"+ Anio);
         String FechaBack = cbDia.getSelectedItem() + "/"  + cbMes.getSelectedItem() + "/" + cbAnio.getSelectedItem();
-        HacerNuevaDonacion(DatosList[0],Material,FechaBack,Peso,Descripcion,Evento,DatosList[0],FechaBack);
+        HacerNuevaDonacion(Usuario,Material,FechaBack,Peso,Descripcion,Evento,DatosList[0],Modificar);
         //ActualizarDescriptores();
+        JOptionPane.showMessageDialog(null, "Donación realizada");
+        this.setVisible(false);
     }//GEN-LAST:event_btDonarMouseClicked
+
+    private void btCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btCerrarMouseClicked
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btCerrarMouseClicked
     public void HacerNuevaDonacion(String usuario,String material,String fecha,String Peso, String descripcion, String evento, String usuariologueado, String fechaActual)
     {
         String nuevoRgistroDonacion = usuario +"|"+ material+"|"+fecha+"|"+ Peso +"|"+ descripcion +"|"+evento+"|"+usuariologueado+"|"+fechaActual+"|"+1;
@@ -268,7 +309,7 @@ public class HacerDonación extends javax.swing.JFrame {
         int IndiceLinea = 1;
         String ext = ".txt";
         String inicio = "C:\\MEIA\\Donacion_";
-        String ruta = inicio + Bloque + ext;
+        String ruta = inicio + Bloque + ext;//C:\\MEIA\\Donacion_1.txt
         String linea = "";
         String direccion = "";
         ArrayList<String> lista = new ArrayList<>();
@@ -545,21 +586,23 @@ public class HacerDonación extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btCerrar;
     private javax.swing.JButton btDonar;
     private javax.swing.JComboBox<String> cbAnio;
     private javax.swing.JComboBox<String> cbDia;
     private javax.swing.JComboBox<String> cbMes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JComboBox<String> jcDonador;
     private javax.swing.JComboBox<String> jcMateriales;
     private javax.swing.JTextArea taEvento;
     private javax.swing.JTextField tfDescripcion;
